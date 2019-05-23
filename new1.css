@@ -5,7 +5,7 @@
 body{
 	background-size:50%  ;
 	background-repeat:no-repeat ;
-	background-image:url(123.jpg);
+	/*background-image:url(123.jpg);*/
 	/*background:linear-gradient(top,#ffffff,rgba(51,51,51,0.3)),url(559.jpg) center bottom no-repeat;
 	background:-moz-linear-gradient(top,#ffffff,rgba(51,51,51,0.3)),url(559.jpg) center bottom no-repeat;
 	background:-webkit-linear-gradient(top,#ffffff,rgba(51,51,51,0.3)),url(559.jpg) center bottom no-repeat;
@@ -67,6 +67,7 @@ body{
 
 
 #content{
+	background-image:url(123.jpg);
 	color:#666666;
 	clear:both; /*解除浮動*/
 	width:960px; /*不必預設高度 用文字段落去調整高度即可*/

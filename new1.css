@@ -67,8 +67,8 @@ body{
 
 
 #content{
-	background-image:url(123.jpg);
-	color:#666666;
+	
+	/*color:#666666;*/
 	clear:both; /*解除浮動*/
 	width:960px; /*不必預設高度 用文字段落去調整高度即可*/
 	margin:0 auto;
@@ -83,6 +83,7 @@ body{
 }
 
 #content p{
+	background-image:url(123.jpg);
 	text-indent:50px; /*用法二:文字段落的縮排時*/
 	font-size:15px;
 	line-height:1.7;

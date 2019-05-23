@@ -3,11 +3,9 @@
 body{
 	background-size:50%  ;
 	background-repeat:no-repeat ;
-	
-	/*background:linear-gradient(top,#ffffff,rgba(51,51,51,0.3)),url(559.jpg) center bottom no-repeat;
-	background:-moz-linear-gradient(top,#ffffff,rgba(51,51,51,0.3)),url(559.jpg) center bottom no-repeat;
-	background:-webkit-linear-gradient(top,#ffffff,rgba(51,51,51,0.3)),url(559.jpg) center bottom no-repeat;*/
 	background-position:center;
+	background-image:url(a.jpg);
+	background-size:cover;
 	/*background-color:#D2B48C;*/
 	margin-bottom: 120px;
 
@@ -16,15 +14,16 @@ body{
 /* ===頁首區=== */
 
 #header{
-	width:960px;
+	position:static;/*fixed*/
+	max-width:960px;
 	margin:0 auto;/*先上下 後左右 = 置中的縮寫語法*/
 }
 
 #header h2{
 	display:block; /*可省略*/
-	width:100%;
+	max-width:100%;
 	height:300px;
-	/*background-image:url(queena.jpg);*/
+	background-image:url(queena.jpg);
 	text-indent:-9999px; /*用法一: 隱藏文字時*/
 }
 
@@ -47,7 +46,7 @@ body{
 	width:160px; /*960px 均分給6個按鈕*/
 	height:50px;
 	line-height:50px; /*文字高度置中*/
-	background-color:000;
+	background-color:#888888;
 	font-size:20px;
 	color:#FFF;
 	letter-spacing:2px;
@@ -61,26 +60,23 @@ body{
 
 /* ===內容區=== */
 
-#pop{
-	width:960px;
-	margin:0 auto;
-}
-
-#pop h3{
-	width:100%;
-	background-image:url(123.jpg);
-}
 
 #content{
 	
-	/*color:#666666;*/
-	clear:both; /*解除浮動*/
+	background-repeat:no-repeat ;
+	background-position:center;
+	background-size:100% 100%;
+	background-color:#000000;
+	height:auto;
 	width:960px; /*不必預設高度 用文字段落去調整高度即可*/
 	margin:0 auto;
 	
+	/*background-image:url(123.jpg);*/
+	/*color:#666666;*/
+	/*clear:both;*/ /*解除浮動*/
 	/*background-color:#FFE4B5;*/
-	padding-top:30px; /*內容區與上方選單區之間的間隔設定*/
-	padding-bottom:30px; /*內容區與下方頁尾區之間的間隔設定*/
+	/*padding-top:30px;*/ /*內容區與上方選單區之間的間隔設定*/
+	/*padding-bottom:30px;*/ /*內容區與下方頁尾區之間的間隔設定*/
 	
 }
 
@@ -88,6 +84,7 @@ body{
 	
 	text-indent:50px; /*用法二:文字段落的縮排時*/
 	font-size:15px;
+	color:#FFFF;
 	line-height:1.7;
 	padding:0 30px; /*左右各留 30px 縮排上視覺較舒服*/
 	padding-bottom:15px; /*不同段落之間做區隔*/
@@ -96,13 +93,13 @@ body{
 /* ===頁尾區=== */
 
 #footer{
-	position:fixed;
+	position:fixed;/*fixed static*/
 	bottom:0;
 	right:0;
 	left:0;
-	width:960px; /*不必預設高度 可利用下方的 h2 行高做調整*/
+	max-width:960px; /*不必預設高度 可利用下方的 h2 行高做調整*/
 	margin:0 auto;
-	background-color:#D8BFD8;
+	background-color:#FF77FF;
 }
 
 #footer h2{

@@ -90,23 +90,46 @@ body{
 	padding-bottom:15px; /*不同段落之間做區隔*/
 }
 
+#teach {
+	/*position:relative;
+	top:20px;
+    left:-600px;*/ /*94 95 為靠左對齊*/
+	/*background-repeat:no-repeat ;
+	background-position:center;
+	background-size:100% 100%;
+	background-color:#000000;
+	background-image:url(left.jpg);
+	height:500;
+	width:200;*/ /*不必預設高度 用文字段落去調整高度即可*/
+	/*margin:0 auto;*/
+	
+	position: fixed;  /*固定在網頁上不隨卷軸移動absolute，若要隨卷軸移動用fixed*/
+    top: 50%;  /*設置垂直位置*/
+    left: -55px;  /*設置水平位置，依所放的內容多寡需要自行手動調整*/
+    background: #ffffff;  /*背景顏色*/
+    padding: 10px 20px;
+    border-radius: 10px;  /*圓角*/
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+}
+#teach:hover{  /*當滑鼠移至此區塊時，伸縮區塊*/
+    left: -5px;
+}
+#teach title{
+    padding-left: 5px;  /*讓標題與連結中間有空隙*/
+}
+
+
 /* ===頁尾區=== */
 
 #footer{
-	position:fixed;/*fixed static*/
+	position:static;/*fixed static*/
 	bottom:0;
 	right:0;
 	left:0;
 	max-width:960px; /*不必預設高度 可利用下方的 h2 行高做調整*/
 	margin:0 auto;
 	background-color:#FF77FF;
-}
-
-#footer h2{
-	font-size:15px;
-	text-align:center;
-	line-height:30px;
-	color:#666666;
 }
 #footer h6{
 	font-size:15px;

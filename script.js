@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /*music*/
 	document.addEventListener('click', () => {
     const bgm = document.getElementById('bgm');
-    bgm.muted = false;
+    bgm.volume = 0.2;
+	bgm.muted = false;
     bgm.play();
   }, { once: true });
   

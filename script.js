@@ -6,14 +6,10 @@ function toggleSection(id) {
 
     // 出席選項控制人數選單
 document.addEventListener('DOMContentLoaded', () => {
-	const text = "我們要結婚了！";
-  let i = 0;
-  const headline = document.getElementById("headline");
-  headline.innerHTML = text;
-  const attendance = document.getElementById('attendance');
-  const guestGroup = document.getElementById('guest-count-group');
-  attendance.addEventListener('change', function () {
-    guestGroup.style.display = this.value === 'yes' ? 'block' : 'none';
+  const attendanceSelect = document.getElementById('attendance');
+  const guestCountGroup = document.getElementById('guest-count-group');
+  attendanceSelect.addEventListener("change", () => {
+    guestCountGroup.style.display = attendanceSelect.value === "yes" ? "block" : "none";
   });
   
 	// 表單送出提示
@@ -37,21 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 5000);
     }
     setInterval(createHeart, 300);
-
-    const blessings = [
-      "願你們永浴愛河💗",
-      "百年好合，永結同心！💍",
-      "幸福久久，甜蜜滿滿🌹",
-      "愛情長跑開花結果🎉"
-    ];
-    let blessingIndex = 0;
-    setInterval(() => {
-      document.getElementById("blessing-carousel").innerText = blessings[blessingIndex];
-      blessingIndex = (blessingIndex + 1) % blessings.length;
-    }, 4000);
-	
+/*music*/
 	document.addEventListener('click', () => {
     const bgm = document.getElementById('bgm');
     bgm.muted = false;
     bgm.play();
   }, { once: true });
+  
+  

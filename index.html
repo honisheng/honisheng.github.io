@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我們的婚禮邀請</title>
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+
+  <header>
+    <h1>嘻嘻不嘻嘻</h1>
+    <p>2025年11月01日 晚上6時</p>
+    <p>林皇宮白珍珠廳，台中市西屯區臺灣大道三段33號</p>
+  </header>
+  
+
+
+  <audio id="bgm" src="music/wedding-music.mp3" autoplay loop>
+  </audio>
+
+  <section class="invitation">
+    <h2>愛的邀約</h2>
+    <p>那一年，我們偶然相遇...</p>
+    <!-- 可加入更多文字描述 -->
+  </section>
+   <div id="hearts"></div>
+  <!-- 婚宴回函 -->
+  <section>
+    <button class="toggle-button" onclick="toggleSection('rsvp-content')">📩 婚宴回函</button>
+    <div id="rsvp-content" class="toggle-content">
+      <!-- RSVP 表單內容保持原樣 -->
+      <form id="rsvp-form">
+        <label for="name">您的姓名：</label>
+        <input type="text" id="name" name="name" required />
+        <label>您會來參與我們的婚宴嗎？</label>
+        <select name="attendance" id="attendance" required>
+          <option value="">請選擇</option>
+          <option value="yes">非常樂意</option>
+          <option value="no">無法參加</option>
+        </select>
+        <div id="guest-count-group" style="display: none;">
+          <label for="guest-count">出席人數：</label>
+          <select id="guest-count" name="guest-count">
+            <option value="">請選擇人數</option>
+            <option value="1">1 位</option>
+            <option value="2">2 位</option>
+            <option value="3">3 位</option>
+            <option value="4">4 位</option>
+            <option value="5">5 位</option>
+            <option value="6">6 位</option>
+            <option value="7">7 位</option>
+            <option value="8">8 位</option>
+            <option value="9">9 位</option>
+            <option value="10">10 位</option>
+          </select>
+        </div>
+        <label>需要為您準備素食嗎？</label>
+        <select name="vegetarian">
+          <option value="">請選擇</option>
+          <option value="yes">是的，我需要</option>
+          <option value="no">謝謝，不需要</option>
+        </select>
+        <label for="message">給我們的祝福：</label>
+        <textarea id="message" name="message"></textarea>
+        <button type="submit">送出回覆</button>
+      </form>
+    </div>
+</section>
+
+    <!-- 婚宴地圖 -->
+<section>
+  <button class="toggle-button" onclick="toggleSection('map-content')">🗺️ 婚宴地圖</button>
+  <div id="map-content" class="toggle-content">
+    <div class="map-container">
+      <iframe
+        src=https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14561.036401887412!2d120.64254316053778!3d24.16264433788154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693d8c2f21172f%3A0xc5fa8741cb3c07d7!2z5Y-w5Lit5p6X55qH5a6u!5e0!3m2!1szh-TW!2stw!4v1746501511946!5m2!1szh-TW!2stw"
+        width="100%"
+        height="400"
+        style="border:0;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </div>
+  
+  <div class="intro-container">
+    <div class="intro-text">我們要結婚了 💍</div>
+  </div>
+
+  <div class="main-content">
+    <div class="photo-slider">
+      <div class="slider-nav">
+        <button id="prevBtn">❮</button>
+        <button id="nextBtn">❯</button>
+      </div>
+      <a href="images/photo1.jpg" data-lightbox="wedding"><img src="images/photo1.jpg"></a>
+      <a href="images/photo2.jpg" data-lightbox="wedding"><img src="images/photo2.jpg"></a>
+      <a href="images/photo3.jpg" data-lightbox="wedding"><img src="images/photo3.jpg"></a>
+    </div>
+    <div class="slider-dots"></div>
+  </div>
+  
+</section>
+
+
+
+  <footer>
+    <p>© 2025 張&黃 敬邀</p>
+  </footer>
+
+  <script src="script.js"></script>
+  
+</body>
+</html>

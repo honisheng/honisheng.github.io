@@ -26,6 +26,29 @@
       to { opacity: 1; }
     }
 	
+/*資訊CSS*/
+	.section {
+      margin-bottom: 30px;
+	  padding-left: 400px
+	  /*text-align: center;*/
+    }
+    .title {
+      color: #8B0000;
+      font-weight: bold;
+      font-size: 1.2em;
+	  /*text-align: center;*/
+    }
+    .content {
+      margin-top: 5px;
+	  /*text-align: center;*/
+    }
+    .note {
+      color: #D2691E;
+      font-size: 0.95em;
+      margin-top: 10px;
+	  /*text-align: center;*/
+    }
+	
 	/* Intro animation overlay */
 #intro-overlay {
     position: fixed;

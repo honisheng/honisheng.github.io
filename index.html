@@ -15,16 +15,41 @@
 
   <header>
     <h1>嘻嘻不嘻嘻</h1>
-    <p>2025年11月01日 晚上6時</p>
-    <p>林皇宮白珍珠廳，台中市西屯區臺灣大道三段33號</p>
   </header>
   
 
-
+<!--BGM-->
   <audio id="bgm" src="music/wedding-music.mp3" autoplay muted loop>
   </audio>
-
+  
+<!--愛心特效-->
    <div id="hearts"></div>
+   
+   <div class="section">
+    <div class="title">日期 Date</div>
+    <div class="content">2023/11/01 (六) 晚宴</div>
+  </div>
+
+  <div class="section">
+    <div class="title">時間 Time</div>
+    <div class="content">
+      16:30 戶外證婚 → 17:00 迎賓酒會 → 17:30 敬邀入席 → 18:00 準時開席
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="title">地點 Location</div>
+    <div class="content">
+      台中林皇宮宮廷館 1F 白珍珠廳（台中市西屯區臺灣大道三段33號）
+    </div>
+    <div class="note">
+      建議搭乘高鐵於烏日站搭高鐵接駁車，在110市政路口下車，<br>
+      需注意林皇宮是2棟間由玻璃帷幕的柱中間一段白布條入口進場，<br>
+      市政路車多為單向1~2車道，儘量提早到，<br>
+      停車位有限，附近也有市府收費停車場，建議共乘！
+    </div>
+  </div>
+   
   <!-- 婚宴回函 -->
   <section>
     <button class="toggle-button" onclick="toggleSection('rsvp-content')">📩 婚宴回函</button>
@@ -32,7 +57,19 @@
       <!-- RSVP 表單內容保持原樣 -->
       <form id="rsvp-form">
         <label for="name">您的姓名：</label>
-        <input type="text" id="name" name="name" required />
+        <input type="text" id="name" name="name" required ></input>
+		
+		<label>您與新人的關係</label>
+        <select name="relation">
+          <option value="">請選擇</option>
+          <option value="A">男方親戚</option>
+          <option value="B">女方親戚</option>
+		  <option value="C">男方朋友</option>
+		  <option value="D">女方朋友</option>
+		  <option value="E">男方同事</option>
+		  <option value="F">女方同事</option>
+        </select>
+		
         <label>您會來參與我們的婚宴嗎？</label>
         <select name="attendance" id="attendance" required>
           <option value="">請選擇</option>
@@ -82,10 +119,13 @@
       ></iframe>
     </div>
   </div>
-  
-
 </section>
-
+	<div class="note">
+      建議搭乘高鐵於烏日站搭高鐵接駁車，在110市政路口下車，<br>
+      需注意林皇宮是2棟間由玻璃帷幕的柱中間一段白布條入口進場，<br>
+      市政路車多為單向1~2車道，儘量提早到，<br>
+      停車位有限，附近也有市府收費停車場，建議共乘！
+    </div>
 
 
   <footer>

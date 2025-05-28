@@ -11,6 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
   attendanceSelect.addEventListener("change", () => {
     guestCountGroup.style.display = attendanceSelect.value === "yes" ? "block" : "none";
   });
+  //
+  const vegetarianSelect = document.getElementById('vegetarian');
+  const guestVGroup = document.getElementById('guest-v-group');
+  vegetarianSelect.addEventListener("change", () => {
+    guestVGroup.style.display = vegetarianSelect.value === "yes" ? "block" : "none";
+  });
   
 	// 表單送出提示
       document.getElementById('rsvp-form').addEventListener('submit', function (e) {

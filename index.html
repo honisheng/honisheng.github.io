@@ -25,6 +25,10 @@
 <!--愛心特效-->
    <div id="hearts"></div>
    
+   <!--區塊-->
+   <div class="t1">
+   <div class="A"></div>
+   <div class="B">
    <div class="section">
     <div class="title">日期 Date</div>
     <div class="content">2023/11/01 (六) 晚宴</div>
@@ -91,13 +95,32 @@
             <option value="9">9 位</option>
             <option value="10">10 位</option>
           </select>
-        </div>
-        <label>需要為您準備素食嗎？</label>
-        <select name="vegetarian">
+		  </div>
+        <label >需要為您準備素食嗎？</label>
+		
+        <select name="vegetarian" id="vegetarian" required>
           <option value="">請選擇</option>
           <option value="yes">是的，我需要</option>
           <option value="no">謝謝，不需要</option>
         </select>
+		
+		<div id="guest-v-group" style="display: none;">
+          <label for="guest-v">人數：</label>
+          <select id="guest-v" name="guest-v">
+            <option value="">請選擇人數</option>
+            <option value="1">1 位</option>
+            <option value="2">2 位</option>
+            <option value="3">3 位</option>
+            <option value="4">4 位</option>
+            <option value="5">5 位</option>
+            <option value="6">6 位</option>
+            <option value="7">7 位</option>
+            <option value="8">8 位</option>
+            <option value="9">9 位</option>
+            <option value="10">10 位</option>
+          </select>
+        </div>
+	
         <button type="submit">送出回覆</button>
       </form>
     </div>
@@ -126,7 +149,9 @@
       市政路車多為單向1~2車道，儘量提早到，<br>
       停車位有限，附近也有市府收費停車場，建議共乘！
     </div>
-
+</div>
+<div class="c"> </div>
+</div>
 
   <footer>
     <p>© 2025 張&黃 敬邀</p>

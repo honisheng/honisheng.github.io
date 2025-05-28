@@ -26,10 +26,21 @@
       to { opacity: 1; }
     }
 	
+	
+	/*--------------------------------*/
+	.t1 {
+      display: grid;
+      grid-template-areas: 
+        "A B C";
+      grid-template-columns: 1fr 3fr 1fr;
+      gap: 10px;
+    }
+	/*--------------------------------*/
+	
 /*資訊CSS*/
 	.section {
       margin-bottom: 30px;
-	  padding-left: 400px
+	  padding-left: 20px
 	  /*text-align: center;*/
     }
     .title {

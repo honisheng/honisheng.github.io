@@ -25,7 +25,61 @@
     @keyframes fadeIn {
       to { opacity: 1; }
     }
-	
+	/* 初始：信封 */
+    .intro {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #ffeaea;
+      transition: opacity 1s ease;
+    }
+
+    .envelope {
+      position: relative;
+      width: 600px;
+      height: 500px;
+      background: #d9534f;
+      border-radius: 5px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #c9302c;
+      transform-origin: top center;
+      transition: transform 1s ease;
+      z-index: 2;
+    }
+
+    .letter {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      padding: 20px;
+      box-sizing: border-box;
+      transition: top 1s ease;
+      z-index: 1;
+      font-size: 14px;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(-180deg);
+    }
+
+    .envelope.open .letter {
+      top: 0;
+    }
+/*信封結束*/
 	
 	/*--------------------------------*/
 	.t1 {

@@ -47,4 +47,18 @@ document.addEventListener('DOMContentLoaded', () => {
     bgm.play();
   }, { once: true });
   
+  /*信封JS*/
+  const envelope = document.getElementById('envelope');
+    const intro = document.getElementById('intro');
+    const main = document.getElementById('main');
+    envelope.addEventListener('click', () => {
+      envelope.classList.add('open');
+      setTimeout(() => {
+        intro.style.opacity = 0;
+        setTimeout(() => {
+          intro.style.display = 'none';
+          main.style.display = 'grid';
+        }, 1000);
+      }, 1500);
+    });
   

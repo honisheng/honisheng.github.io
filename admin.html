@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>婚宴管理系統 - 登入保護</title>
+  <style>
+    body { font-family: sans-serif; background: #f0f2f5; padding: 20px; }
+    h1 { color: #d81b60; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #343a40; color: white; }
+    tr:nth-child(even) { background-color: #f9f9f9; }
+
+    #login-box, #content-box { max-width: 600px; margin: 0 auto; }
+    #login-box { text-align: center; padding-top: 100px; }
+    input { padding: 10px; margin: 5px; width: 80%; }
+    button { padding: 10px 20px; margin-top: 10px; cursor: pointer; }
+    #summary { font-weight: bold; margin-top: 20px; }
+  </style>
+</head>
+<body>
+
+  <!-- 🔐 登入畫面 -->
+  <div id="login-box">
+    <h1>請登入以查看婚宴資料</h1>
+    <input type="email" id="email" placeholder="Email" /><br/>
+    <input type="password" id="password" placeholder="密碼" /><br/>
+    <button onclick="login()">登入</button>
+    <p id="login-error" style="color:red;"></p>
+  </div>
+
+  <!-- ✅ 管理內容區 -->
+  <div id="content-box" style="display:none;">
+    <h1>婚宴回覆管理</h1>
+    <div id="summary">載入中...</div>
+    <button onclick="exportCSV()">📥 匯出 CSV</button>
+    <button onclick="logout()">🚪 登出</button>
+
+    <table id="rsvp-table">
+      <thead>
+        <tr>
+          <th>姓名</th><th>關係</th><th>是否出席</th><th>人數</th><th>是否素食</th><th>素食人數</th><th>時間</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCRKeXJg7ZFyoy2N3RoVgMFnaaHQ1y5WWE",
+      authDomain: "wedding-3e426.firebaseapp.com",
+      projectId: "wedding-3e426",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    const loginBox = document.getElementById("login-box");
+    const contentBox = document.getElementById("content-box");
+    const loginError = document.getElementById("login-error");
+    const summary = document.getElementById("summary");
+    const tbody = document.querySelector("#rsvp-table tbody");
+
+    let csvData = [];
+
+    // 檢查是否已登入
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        loginBox.style.display = "none";
+        contentBox.style.display = "block";
+        loadData();
+      } else {
+        loginBox.style.display = "block";
+        contentBox.style.display = "none";
+      }
+    });
+
+    function login() {
+      const email = document.getElementById("email").value;
+      const pw = document.getElementById("password").value;
+      auth.signInWithEmailAndPassword(email, pw)
+        .catch(err => {
+          loginError.innerText = "登入失敗：" + err.message;
+        });
+    }
+
+    function logout() {
+      auth.signOut();
+    }
+
+    function loadData() {
+      db.collection("rsvps").orderBy("timestamp", "desc").get().then(snapshot => {
+        let total = 0, attending = 0, veg = 0;
+        tbody.innerHTML = ""; // 清空表格
+
+        snapshot.forEach(doc => {
+          const d = doc.data();
+          const row = document.createElement("tr");
+
+          const guestCount = parseInt(d.guestCount || 0);
+          const guestV = parseInt(d.guestV || 0);
+
+          row.innerHTML = `
+            <td>${d.name || ""}</td>
+            <td>${relationLabel(d.relation)}</td>
+            <td>${d.attendance === 'yes' ? '✅ 出席' : '❌ 缺席'}</td>
+            <td>${guestCount}</td>
+            <td>${d.vegetarian === 'yes' ? '是' : '否'}</td>
+            <td>${guestV}</td>
+            <td>${d.timestamp?.toDate().toLocaleString() || ""}</td>
+          `;
+          tbody.appendChild(row);
+
+          csvData.push({
+            姓名: d.name || "",
+            關係: relationLabel(d.relation),
+            是否出席: d.attendance === 'yes' ? '出席' : '未出席',
+            人數: guestCount,
+            是否素食: d.vegetarian === 'yes' ? '是' : '否',
+            素食人數: guestV,
+            回覆時間: d.timestamp?.toDate().toLocaleString() || "",
+          });
+
+          if (d.attendance === 'yes') {
+            attending += guestCount;
+            if (d.vegetarian === 'yes') veg += guestV;
+          }
+          total++;
+        });
+
+        summary.innerText = `總回覆：${total} 筆｜出席總人數：${attending} 人｜素食：${veg} 人`;
+      });
+    }
+
+    function relationLabel(code) {
+      const map = {
+        A: "男方親戚", B: "女方親戚", C: "男方朋友", D: "女方朋友",
+        E: "男方同事", F: "女方同事"
+      };
+      return map[code] || "";
+    }
+
+    function exportCSV() {
+      let csv = '姓名,關係,是否出席,人數,是否素食,素食人數,回覆時間\n';
+      csvData.forEach(row => {
+        csv += `${row.姓名},${row.關係},${row.是否出席},${row.人數},${row.是否素食},${row.素食人數},${row.回覆時間}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "婚宴回覆清單.csv";
+      link.click();
+    }
+  </script>
+</body>
+</html>

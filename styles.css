@@ -112,12 +112,13 @@
 		  grid-template-columns:1fr 3fr 1fr; gap:10px; }
     .section { margin-bottom:30px; 
 			   padding-left:20px; 
-font-size: 30px;
 text-align: center;}
     .title { color:#8B0000; 
 			 font-weight:bold; 
 			 font-size:1.2em;
-text-align: center; }
+text-align: center; 
+font-size: 30px;
+}
     .content { margin-top:5px; text-align: center;
 }
     .note { color:#D2691E; 

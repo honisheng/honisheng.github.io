@@ -125,20 +125,7 @@ font-size: 30px;
 			font-size:2em; 
 			margin-top:5px; }
 
-    /* 愛心飄落效果 */
-    #hearts { position:fixed; 
-			  top:0; 
-			  left:0; 
-			  width:100%; 
-			  height:100%; 
-			  pointer-events:none; 
-			  z-index:999; }
-    .heart { position:absolute; 
-			 width:20px; 
-			 height:20px; 
-			 background:url('images/red-heart.svg') no-repeat center; 
-			 background-size:contain; 
-			 animation: fall 5s linear infinite; }
+    
     @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity:0; } }
 
     /* 表單與按鈕 */

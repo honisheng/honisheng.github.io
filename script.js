@@ -154,8 +154,7 @@
     const envelope = document.getElementById('envelope');
     const intro = document.getElementById('intro');
     const main = document.getElementById('main');
-    const bgm = document.getElementById('bgm');
-
+    
     let opened = false;
     envelope.addEventListener('click', () => {
       if (opened) return;
@@ -167,10 +166,6 @@
           intro.style.display = 'none';
           main.style.display = 'block';
           main.style.animation = 'fadeIn 1.5s ease forwards';
-          // 啟動音樂
-          bgm.volume = 0.2;
-          bgm.muted = false;
-          bgm.play();
           { once: true };
         }, 1500);
       });

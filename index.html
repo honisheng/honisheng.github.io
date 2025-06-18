@@ -5,181 +5,143 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>我們的婚禮邀請</title>
   <link rel="stylesheet" href="styles.css" />
+  <!-- Open Graph：方便分享時顯示預覽 -->
+  <meta property="og:title" content="我們的婚禮邀請 – 張明聖＆黃惠如" />
+  <meta property="og:description" content="邀請您見證我們的幸福時刻" />
+  <meta property="og:image" content="images/share-img.png" />
   
 </head>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <body>
 
-<div id="intro-overlay">
-    <div class="intro-text">我們結婚啦</div>
-</div>
+  <!-- Intro overlay -->
+  <div id="intro-overlay"><div class="intro-text">我們結婚啦</div></div>
 
-  <!-- 信封動畫區 -->
+  <!-- 信封區 -->
   <div class="intro" id="intro">
     <div class="envelope" id="envelope">
       <div class="flap">
-        <br></br>
-        <h1 style="text-align: center; color: white; margin-top: 20px; font-size: 80px;">囍</h1>
-        <br></br>
-        <br></br>
-        <br></br>
-        <h1 style="text-align: center; color: white;">張明聖&黃惠如</h1>
-        <br></br>
-        <p style="font-family: 'Great Vibes', cursive; font-size: 60px; color: white; text-align: right; margin-right: 30px;">
-          I ❤ You
-        </p>
-
+        <h1 style="text-align:center;color:white;margin-top:20px;font-size:80px;">囍</h1>
+        <h1 style="text-align:center;color:white;">張明聖&黃惠如</h1>
+        <p style="font-family:'Great Vibes',cursive;font-size:60px;color:white;text-align:right;margin-right:30px;">I ❤ You</p>
       </div>
       <div class="letter">
-        <h2>婚宴邀請函</h2>
-        <br></br>
-        <br></br>
-        <br></br>
-        <br></br>
-        <h1>我們誠摯地邀請您參加我們的婚禮</h1>
-        <h1>一起見證這美好的時刻。</h1>
+        <h2>婚宴邀請函</h2><br><h1>我們誠摯地邀請您參加我們的婚禮</h1><h1>一起見證這美好的時刻。</h1>
       </div>
     </div>
   </div>
-  <header>
-    <h1>張明聖&黃惠如誠摯地邀請您參加</h1>
-  </header>
-  
 
-<!--BGM-->
-  <audio id="bgm" src="music/wedding-music.mp3" autoplay muted loop>
-  </audio>
-  
-<!--愛心特效-->
-   <div id="hearts"></div>
-   
-   <!--區塊-->
-   <div class="t1">
-   <div class="A"></div>
-   <div class="B">
-   <div class="section">
-    <div class="title">日期 Date</div>
-    <div class="content">2023/11/01 (六) 晚宴</div>
-  </div>
+  <!-- 主內容 -->
+  <div id="main">
+    <header>
+	<h1>張明聖&黃惠如</h1>
+	<h2>誠摯地邀請您參加</h2>
+	</header>
 
-  <div class="section">
-    <div class="title">時間 Time</div>
-    <div class="content">
-      16:30 戶外證婚 → 17:00 迎賓酒會 → 17:30 敬邀入席 → 18:00 準時開席
-    </div>
-  </div>
+    <!-- BGM -->
+    <audio id="bgm" src="music/wedding-music.mp3" autoplay muted loop></audio>
 
-  <div class="section">
-    <div class="title">地點 Location</div>
-    <div class="content">
-      台中林皇宮宮廷館 1F 白珍珠廳（台中市西屯區臺灣大道三段33號）
-    </div>
-    
+    <!-- 愛心特效 -->
+    <div id="hearts"></div>
+
+    <!-- 資訊區 -->
+    <div class="t1">
+      <div class="A"></div>
+      <div class="B">
+        <div class="section"><div class="title">日期 Date</div><div class="content">2025/11/01 (六) 晚宴</div></div>
+        <div class="section"><div class="title">時間 Time</div><div class="content">16:30 戶外證婚 → 17:00 迎賓酒會 → 17:30 敬邀入席 → 18:00 準時開席</div></div>
+        <div class="section"><div class="title">地點 Location</div><div class="content">台中林皇宮宮廷館 1F 白珍珠廳（台中市西屯區臺灣大道三段33號）</div></div>
+
+        <!-- 回函表單 -->
+        <section>
+          <h2>📩 婚宴回函</h2>
+			<div id="rsvp-content" class="toggle-content" style="display:block;">
+            
+			<!-- 通關密語開始 -->
+			<div id="verify-container" style="text-align:center; margin-bottom: 20px;">
+  <label for="accessCode">🔐 請輸入邀請碼以填寫表單：</label><br/>
+  <input type="text" id="accessCode" placeholder="請輸入邀請碼" style="padding:8px; width:60%; margin-top:8px;" />
+  <button type="button" onclick="verifyAccessCode()" style="margin-top:10px;">驗證</button>
+  <p id="verifyError" style="color:red; display:none;">邀請碼錯誤，請再試一次。</p>
+</div>
+<!-- 通關密語結束 -->
+			
+			<form id="rsvp-form" style="display:none;">
+              <label for="name">您的姓名：</label><input type="text" id="name" name="name" required />
+              <label>您與新人的關係</label>
+              <select id="relation" name="relation"><option value="">請選擇</option><option value="A">男方親戚</option><option value="B">女方親戚</option><option value="C">男方朋友</option><option value="D">女方朋友</option><option value="E">男方同事</option><option value="F">女方同事</option></select>
+              <label>您會來參與我們的婚宴嗎？</label>
+              <select name="attendance" id="attendance" required><option value="">請選擇</option><option value="yes">非常樂意</option><option value="no">無法參加</option></select>
+              <div id="guest-count-group" style="display:none;">
+                <label for="guest-count">出席人數：</label>
+                <select id="guest-count" name="guest-count"><option value="">請選擇人數</option></select>
+              </div>
+              <label>需要為您準備素食嗎？</label>
+              <select name="vegetarian" id="vegetarian" required><option value="">請選擇</option><option value="yes">是的，我需要</option><option value="no">謝謝，不需要</option></select>
+              <div id="guest-v-group" style="display:none;">
+                <label for="guest-v">人數：</label>
+                <select id="guest-v" name="guest-v"></select>
+              </div>
+			  <!-- 是否需要嬰兒座椅 -->
+				<div>
+				<label>是否需要嬰兒座椅？</label>
+				<label><input type="radio" name="needBabySeat" value="是" onclick="toggleBabySeatCount(true)" required /> 是</label>
+				<label><input type="radio" name="needBabySeat" value="否" onclick="toggleBabySeatCount(false)" /> 否</label>
+				</div>
+
+			  <!-- 需要幾張嬰兒座椅（預設隱藏） -->
+				<div id="babySeatCountContainer" style="display: none;">
+				<label for="babySeatCount">需要幾張嬰兒座椅？</label>
+				<input type="number" id="babySeatCount" name="babySeatCount" min="1" max="10" />
+				</div>
+				
+				<div style="margin-top: 10px;">
+  <label for="captchaInput">請輸入驗證碼：</label>
+  <div style="display:flex;align-items:center;gap:10px;margin-top:5px;">
+    <div id="captchaText" style="font-weight:bold;font-size:20px;background:#f3f3f3;padding:5px 10px;border-radius:5px;"></div>
+    <button type="button" onclick="generateCaptcha()">🔁 重新產生</button>
   </div>
-   
-  <!-- 婚宴回函 -->
-  <section>
-    <button class="toggle-button" onclick="toggleSection('rsvp-content')">📩 婚宴回函</button>
-    <div id="rsvp-content" class="toggle-content">
-      <!-- RSVP 表單內容保持原樣 -->
-      <form id="rsvp-form">
-        <label for="name">您的姓名：</label>
-        <input type="text" id="name" name="name" required ></input>
-		
-		<label>您與新人的關係</label>
-        <select name="relation">
-          <option value="">請選擇</option>
-          <option value="A">男方親戚</option>
-          <option value="B">女方親戚</option>
-		  <option value="C">男方朋友</option>
-		  <option value="D">女方朋友</option>
-		  <option value="E">男方同事</option>
-		  <option value="F">女方同事</option>
-        </select>
-		
-        <label>您會來參與我們的婚宴嗎？</label>
-        <select name="attendance" id="attendance" required>
-          <option value="">請選擇</option>
-          <option value="yes">非常樂意</option>
-          <option value="no">無法參加</option>
-        </select>
-        <div id="guest-count-group" style="display: none;">
-          <label for="guest-count">出席人數：</label>
-          <select id="guest-count" name="guest-count">
-            <option value="">請選擇人數</option>
-            <option value="1">1 位</option>
-            <option value="2">2 位</option>
-            <option value="3">3 位</option>
-            <option value="4">4 位</option>
-            <option value="5">5 位</option>
-            <option value="6">6 位</option>
-            <option value="7">7 位</option>
-            <option value="8">8 位</option>
-            <option value="9">9 位</option>
-            <option value="10">10 位</option>
-          </select>
-		  </div>
-        <label >需要為您準備素食嗎？</label>
-		
-        <select name="vegetarian" id="vegetarian" required>
-          <option value="">請選擇</option>
-          <option value="yes">是的，我需要</option>
-          <option value="no">謝謝，不需要</option>
-        </select>
-		
-		<div id="guest-v-group" style="display: none;">
-          <label for="guest-v">人數：</label>
-          <select id="guest-v" name="guest-v">
-            <option value="">請選擇人數</option>
-            <option value="1">1 位</option>
-            <option value="2">2 位</option>
-            <option value="3">3 位</option>
-            <option value="4">4 位</option>
-            <option value="5">5 位</option>
-            <option value="6">6 位</option>
-            <option value="7">7 位</option>
-            <option value="8">8 位</option>
-            <option value="9">9 位</option>
-            <option value="10">10 位</option>
-          </select>
+  <input type="text" id="captchaInput" required />
+</div>
+
+				
+              <button type="submit">送出回覆</button>
+            </form>
+          </div>
+        </section>
+		<div id="thankYouMessage" style="display:none; text-align:center; margin-top:2rem;">
+		<h1>💌 回函已收到，感謝您的祝福！</h1>
+		<p>我們已收到您的回覆，期待在婚禮現場與您相見！</p>
+	  </div>
+<div id="formError" style="display:none; color: #b91c1c; margin-top: 10px;"></div>
+        <!-- 地圖 -->
+        <section>
+          <h2>🗺️ 婚宴地圖</h2>
+			<div id="map-content" class="toggle-content" style="display:block;">
+            <div class="map-container">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14561.036401887412!2d120.64254316053778!3d24.16264433788154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693d8c2f21172f%3A0xc5fa8741cb3c07d7!2z5Y-w5Lit5p6X55qH5a6u!5e0!3m2!1szh-TW!2stw!4v1746501511946!5m2!1szh-TW!2stw" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+          </div>
+        </section>
+
+        <div class="note">
+          林皇宮有地下停車場、停車位有限，建議共乘！<br>
+		  若滿位，兩旁文心路二段及惠中路一段有市政公園、市政府平面停車場~~
         </div>
-	
-        <button type="submit">送出回覆</button>
-      </form>
+      </div>
+	  
+	  
+      <div class="C"></div>
     </div>
-</section>
 
-    <!-- 婚宴地圖 -->
-<section>
-  <button class="toggle-button" onclick="toggleSection('map-content')">🗺️ 婚宴地圖</button>
-  <div id="map-content" class="toggle-content">
-    <div class="map-container">
-      <iframe
-        src=https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14561.036401887412!2d120.64254316053778!3d24.16264433788154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693d8c2f21172f%3A0xc5fa8741cb3c07d7!2z5Y-w5Lit5p6X55qH5a6u!5e0!3m2!1szh-TW!2stw!4v1746501511946!5m2!1szh-TW!2stw"
-        width="100%"
-        height="400"
-        style="border:0;"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-      ></iframe>
-    </div>
+    <footer><p>© 2025 張&黃 敬邀</p></footer>
   </div>
-</section>
-	<div class="note">
-      建議搭乘高鐵於烏日站搭高鐵接駁車，在110市政路口下車，<br>
-      需注意林皇宮是2棟間由玻璃帷幕的柱中間一段白布條入口進場，<br>
-      市政路車多為單向1~2車道，儘量提早到，<br>
-      停車位有限，附近也有市府收費停車場，建議共乘！
-    </div>
-</div>
-<div class="c"> </div>
-</div>
-
-  <footer>
-    <p>© 2025 張&黃 敬邀</p>
-  </footer>
 
   <script src="script.js"></script>
-  
+
 </body>
 </html>

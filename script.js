@@ -123,18 +123,7 @@
         submitBtn.innerText = "送出回覆";
         return;
       }
-	  
-	  //驗證碼
-	  const userCaptcha = document.getElementById("captchaInput").value.trim().toUpperCase();
-if (userCaptcha !== currentCaptcha) {
-  alert("驗證碼輸入錯誤，請重新確認！");
-  generateCaptcha(); // 重新產生新驗證碼
-  submitBtn.disabled = false;
-  submitBtn.innerText = "送出回覆";
-  return;
-}
-
-
+	 
       db.collection("rsvps").add({
         name,
         relation,
@@ -160,32 +149,6 @@ if (userCaptcha !== currentCaptcha) {
         });
       document.getElementById("babySeatCountContainer").style.display = 'none';
     });
-	
-	//驗證碼
-	let currentCaptcha = "";
-
-function generateCaptcha() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  currentCaptcha = '';
-  for (let i = 0; i < 4; i++) {
-    currentCaptcha += chars[Math.floor(Math.random() * chars.length)];
-  }
-  document.getElementById("captchaText").innerText = currentCaptcha;
-}
-generateCaptcha(); // 頁面載入先產生一次
-
-
-
-    // 愛心特效
-    function createHeart() {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
-      document.getElementById("hearts").appendChild(heart);
-      setTimeout(() => heart.remove(), 5000);
-    }
-    setInterval(createHeart, 300);
 
     // 信封動畫與音樂觸發
     const envelope = document.getElementById('envelope');
@@ -213,18 +176,4 @@ generateCaptcha(); // 頁面載入先產生一次
       });
     });
   });
-  function verifyAccessCode() {
-  const code = document.getElementById("accessCode").value.trim();
-  const correctCodes = ["1711", "5566"]; // 可自訂多組邀請碼
-
-  if (correctCodes.includes(code)) {
-    document.getElementById("verify-container").style.display = "none";
-    document.getElementById("rsvp-form").style.display = "block";
-    document.getElementById("rsvp-form").scrollIntoView({ behavior: "smooth" });
-  } else {
-    const errorEl = document.getElementById("verifyError");
-    errorEl.style.display = "block";
-    setTimeout(() => { errorEl.style.display = "none"; }, 3000);
-  }
-}
 

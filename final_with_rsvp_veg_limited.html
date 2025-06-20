@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我們的婚禮邀請</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Open Graph：方便分享時顯示預覽 -->
+  <meta property="og:title" content="我們的婚禮邀請 – 張明聖＆黃惠如" />
+  <meta property="og:description" content="邀請您見證我們的幸福時刻" />
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="manifest" href="images/site.webmanifest">
+
+<style>
+    /* 背景與淡入設定 */
+    body {
+      background-image: url('images/lin-palace-bg.png');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+      position: relative;
+      z-index: 0;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; 
+	  left: 0; 
+	  right: 0; 
+	  bottom: 0;
+      background-color: rgba(255,255,255,0.7);
+      z-index: -1;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* Intro overlay */
+    #intro-overlay {
+      position: fixed;
+      top: 0; 
+	  left: 0; 
+	  width: 100%; 
+	  height: 100%;
+      background-color: white;
+	  background-image: url('images/0001.jpg');
+			 background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: fadeOut 2s ease 3s forwards;
+    }
+    .intro-text {
+      font-size: 3.5em;
+      font-weight: bold;
+      color: #d88c9a;
+	  transform: translateY(-200px);
+    }
+	
+	
+	
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    /* 信封動畫 */
+    .intro { display: flex; 
+			 justify-content: center; 
+			 align-items: center; 
+			 height: 100vh; 
+			 background: #ffeaea; 
+			 
+			 transition: opacity 1s ease; }
+    .envelope { position: relative; 
+				width: 90vw; 
+				max-width:600px;
+				height: auto; 
+				aspect-ratio: 6/5 ; 
+				background: #d9534f; 
+				border-radius:5px; 
+				overflow:hidden; 
+				cursor:pointer; 
+				box-shadow:0 8px 15px rgba(0,0,0,0.2); }
+    .flap { position:absolute; 
+			top:0; 
+			left:0; 
+			width:100%; 
+			height:50%; 
+			background:#c9302c; 
+			transform-origin: top center; 
+			transition: transform 1s ease; 
+			z-index:2; }
+    .letter { position:absolute; 
+			  top:100%; 
+			  left:0; 
+			  width:100%; 
+			  height:100%; 
+			  background:#fff; 
+			  padding:20px; 
+			  box-sizing:border-box; 
+			  transition:top 1s ease; 
+			  z-index:1; 
+			  font-size:14px; }
+    .envelope.open .flap { transform: rotateX(-180deg); }
+    .envelope.open .letter { top:0; }
+
+    /* 主內容容器 */
+    #main { display:none; opacity:0; }
+
+    /* 主區塊 */
+    .t1 { display:grid; 
+		  grid-template-areas:"A B C"; 
+		  grid-template-columns:1fr 3fr 1fr; gap:10px; }
+    .section { margin-bottom:30px; 
+			   padding-left:20px; 
+text-align: center;}
+    .title { color:#8B0000; 
+			 font-weight:bold; 
+			 font-size:1.2em;
+text-align: center; 
+font-size: 30px;
+}
+    .content { margin-top:5px; text-align: center;
+}
+    .note { color:#D2691E; 
+			font-size:2em; 
+			margin-top:5px; }
+
+    
+    @keyframes fall { to { transform: translateY(100vh) rotate(360deg); opacity:0; } }
+
+    /* 表單與按鈕 */
+    .toggle-button { background-color:#6666cc; 
+					 color:white; 
+					 padding:12px 16px; 
+					 border:none; 
+					 border-radius:8px; 
+					 cursor:pointer; 
+					 display:block; 
+					 margin:30px auto 10px; 
+					 font-size:18px; }
+    .toggle-content { display:none; 
+					  background:#fff; 
+					  padding:20px; 
+					  margin:0 auto 40px; 
+					  width:90%; 
+					  max-width:600px; 
+					  border-radius:10px; 
+					  box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+    form label, form select, form input, form textarea, form button { 
+		display:block; 
+		width:100%; 
+		margin-bottom:15px; 
+		font-size:16px; }
+    form button { background-color:#d81b60; 
+		color:white; 
+		padding:10px; 
+		border:none; 
+		border-radius:6px; 
+		cursor:pointer; }
+    form button:hover { background-color:#c2185b; }
+
+    /* 標題與地圖容器 */
+    header, section, footer { padding:20px; 
+							  max-width:800px; 
+							  margin:auto; 
+							  text-align:center; }
+    .map-container { position:relative; 
+					 width:100%; 
+					 height:400px; 
+					 border-radius:8px; 
+					 overflow:hidden; 
+					 margin-top:10px; }
+
+  
+/* RWD 響應式設計 */
+@media (max-width: 768px) {
+  .t1 {
+    grid-template-areas: "B";
+    grid-template-columns: 1fr;
+  }
+  .A, .C {
+    display: none;
+  }
+
+  .section {
+    padding-left: 0;
+  }
+
+  .note {
+    font-size: 0.85em;
+    padding: 0 10px;
+  }
+
+  .map-container {
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .flap h1 {
+    font-size: 50px !important;
+  }
+
+  .flap p {
+    font-size: 40px !important;
+  }
+
+  .letter {
+    font-size: 13px;
+    padding: 15px;
+  }
+
+  form label, form select, form input, form textarea, form button {
+    font-size: 14px;
+  }
+
+  .map-container {
+    height: 250px;
+  }
+}
+
+</style>
+
+</head>
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<body>
+
+  <!-- Intro overlay -->
+  <div id="intro-overlay"><div class="intro-text">我們結婚啦</div></div>
+
+  <!-- 信封區 -->
+  <div class="intro" id="intro">
+    <div class="envelope" id="envelope">
+      <div class="flap">
+        <h1 style="text-align:center;color:white;margin-top:20px;font-size:80px;">囍</h1>
+        <h1 style="text-align:center;color:white;">張明聖&黃惠如</h1>
+        <p style="font-family:'Great Vibes',cursive;font-size:60px;color:white;text-align:right;margin-right:30px;">I ❤ You</p>
+      </div>
+      <div class="letter">
+        <h2>婚宴邀請函</h2><br><h1>我們誠摯地邀請您參加我們的婚禮</h1><h1>一起見證這美好的時刻。</h1>
+      </div>
+    </div>
+  </div>
+
+  <!-- 主內容 -->
+  <div id="main">
+    <header>
+	<h1>張明聖&黃惠如</h1>
+	<h2>誠摯地邀請您參加</h2>
+	</header>
+
+    <!-- 資訊區 -->
+    <div class="t1">
+      <div class="A"></div>
+      <div class="B">
+        <div class="section"><div class="title">日期 Date</div><div class="content">2025/11/01 (六) 晚宴</div></div>
+        <div class="section"><div class="title">時間 Time</div><div class="content">16:30 戶外證婚 → 17:00 迎賓酒會 → 17:30 敬邀入席 → 18:00 準時開席</div></div>
+        <div class="section"><div class="title">地點 Location</div><div class="content">台中林皇宮宮廷館 1F 白珍珠廳（台中市西屯區臺灣大道三段33號）</div></div>
+
+        <!-- 回函表單 -->
+        <section>
+          <h2>📩 婚宴回函</h2>
+			<div id="rsvp-content" class="toggle-content" style="display:block;">			
+			<form id="rsvp-form" >
+              <label for="name">您的姓名：</label><input type="text" id="name" name="name" required />
+              
+			  <label>您與新人的關係</label>
+              <select id="relation" name="relation">
+			  <option value="">請選擇</option>
+			  <option value="A">男方親戚</option>
+			  <option value="B">女方親戚</option>
+			  <option value="C">男方朋友</option>
+			  <option value="D">女方朋友</option>
+			  <option value="E">男方同事</option>
+			  <option value="F">女方同事</option>
+			  </select>
+              
+			  <label>您會來參與我們的婚宴嗎？</label>
+              <select name="attendance" id="attendance" required>
+			  <option value="">請選擇</option>
+			  <option value="yes">非常樂意</option>
+			  <option value="no">無法參加，祝福你們</option>
+			  </select>
+			  
+			  <div id="guest-count-group" style="display:none;">
+                <label for="guest-count">出席人數：</label>
+                <select id="guest-count" name="guest-count">
+				<option value="">請選擇人數</option>
+				</select>
+              </div>
+			  
+			  <!--戶外證婚-->
+              <div id="ceremony-group" style="display:none;">
+			  <label for="joinCeremony">我們將於 16:30 舉辦戶外證婚，您願意參加嗎？</label>
+			  <select id="joinCeremony" name="joinCeremony">
+			  <option value="">請選擇</option>
+			  <option value="yes">願意參加戶外證婚</option>
+			  <option value="no">沒關係，參加晚宴就好</option>
+			  </select>
+			  <div id="ceremony-note" style="display:none; color:#8B0000; font-weight:bold; margin-bottom:1em;">
+					💡 請準時於 16:20 前抵達證婚會場，我們會在戶外迎接您！
+			  </div>
+			  </div>
+			  
+			  
+			  
+              <label>需要為您準備素食嗎？</label>
+              <select name="vegetarian" id="vegetarian" required>
+			  <option value="">請選擇</option>
+			  <option value="yes">是的，我需要</option>
+			  <option value="no">謝謝，不需要</option>
+			  </select>
+              <div id="guest-v-group" style="display:none;">
+                <label for="guest-v">人數：</label>
+                <select id="guest-v" name="guest-v"></select>
+              </div>
+			  <!-- 是否需要嬰兒座椅 -->
+				<div>
+				<label>是否需要嬰兒座椅？</label>
+				<label><input type="radio" name="needBabySeat" value="是" onclick="toggleBabySeatCount(true)" required /> 是</label>
+				<label><input type="radio" name="needBabySeat" value="否" onclick="toggleBabySeatCount(false)" /> 否</label>
+				</div>
+
+			  <!-- 需要幾張嬰兒座椅（預設隱藏） -->
+				<div id="babySeatCountContainer" style="display: none;">
+				<label for="babySeatCount">需要幾張嬰兒座椅？</label>
+				<input type="number" id="babySeatCount" name="babySeatCount" min="1" max="10" />
+				</div>
+
+				
+              <button type="submit">送出回覆</button>
+            </form>
+          </div>
+        </section>
+		<div id="thankYouMessage" style="display:none; text-align:center; margin-top:2rem;">
+		<h1>💌 回函已收到，感謝您的祝福！</h1>
+		<p>我們已收到您的回覆，期待在婚禮現場與您相見！</p>
+	  </div>
+<div id="formError" style="display:none; color: #b91c1c; margin-top: 10px;"></div>
+        <!-- 地圖 -->
+        <section>
+          <h2>🗺️ 婚宴地圖</h2>
+			<div id="map-content" class="toggle-content" style="display:block;">
+            <div class="map-container">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14561.036401887412!2d120.64254316053778!3d24.16264433788154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693d8c2f21172f%3A0xc5fa8741cb3c07d7!2z5Y-w5Lit5p6X55qH5a6u!5e0!3m2!1szh-TW!2stw!4v1746501511946!5m2!1szh-TW!2stw" width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+          </div>
+        </section>
+
+        <div class="note">
+          林皇宮有地下停車場、停車位有限，建議共乘！<br>
+		  若滿位，兩旁文心路二段及惠中路一段有市政公園、市政府平面停車場~~
+        </div>
+      </div>
+	  
+	  
+      <div class="C"></div>
+    </div>
+
+    <footer><p>© 2025 張&黃 敬邀</p></footer>
+  </div>
+
+  <script>
+    //firebaseConfig
+  const firebaseConfig = {
+    apiKey: "AIzaSyCRKeXJg7ZFyoy2N3RoVgMFnaaHQ1y5WWE",
+    authDomain: "wedding-3e426.firebaseapp.com",
+    projectId: "wedding-3e426",
+    storageBucket: "wedding-3e426.firebasestorage.app",
+    messagingSenderId: "531046039955",
+    appId: "1:531046039955:web:ac629474956529c160e866"
+  };
+
+  // 初始化 Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  function populateOptions(id) {
+    const select = document.getElementById(id);
+    const defaultOption = document.createElement('option');
+    defaultOption.value = "";
+    defaultOption.textContent = "請選擇";
+    select.appendChild(defaultOption);
+    for (let i = 1; i <= 10; i++) {
+      const option = document.createElement('option');
+      option.value = i;
+      option.textContent = `${i} 位`;
+      select.appendChild(option);
+    }
+  }
+
+  function showError(message) {
+    const errorEl = document.getElementById("formError");
+    errorEl.innerText = message;
+    errorEl.style.display = "block";
+    setTimeout(() => errorEl.style.display = "none", 4000);
+  }
+  
+
+  //控制嬰兒座椅張數欄位顯示
+  function toggleBabySeatCount(show) {
+    const container = document.getElementById("babySeatCountContainer");
+    container.style.display = show ? "block" : "none";
+  }
+  function toggleCeremonyNoteByElement(selectEl) {
+  const note = document.getElementById("ceremonyNote");
+  if (selectEl.value === "yes") {
+    note.style.display = "block";
+  } else {
+    note.style.display = "none";
+  }
+}
+  
+
+  // --- 主要改動區 ---
+  document.addEventListener('DOMContentLoaded', () => {
+  populateOptions("guest-count");
+  populateOptions("guest-v");
+
+  const joinCeremony = document.getElementById('joinCeremony');
+  const ceremonyNote = document.getElementById('ceremony-note');
+  if (joinCeremony && ceremonyNote) {
+    joinCeremony.addEventListener('change', function () {
+      if (this.value === 'yes') {
+        ceremonyNote.style.display = 'block';
+      } else {
+        ceremonyNote.style.display = 'none';
+      }
+    });
+  }
+
+  
+
+    const attendance = document.getElementById('attendance');
+    const guestCountGroup = document.getElementById('guest-count-group');
+    const vegetarianGroup = document.getElementById('vegetarian').parentElement;
+    const guestVGroup = document.getElementById('guest-v-group');
+    const vegetarian = document.getElementById('vegetarian');
+    const babySeatRadios = document.querySelectorAll('input[name="needBabySeat"]');
+    const babySeatContainer = document.getElementById('babySeatCountContainer');
+    // 取得radio外層div
+    const babySeatRadioGroup = babySeatRadios[0].closest('div');
+
+   function updateFormByAttendance() {
+  const attendanceValue = document.getElementById('attendance').value;
+
+  const guestCountGroup = document.getElementById('guest-count-group');
+  const vegetarianGroup = document.getElementById('vegetarian').parentElement;
+  const guestVGroup = document.getElementById('guest-v-group');
+  const vegetarian = document.getElementById('vegetarian');
+  const babySeatRadios = document.querySelectorAll('input[name="needBabySeat"]');
+  const babySeatRadioGroup = babySeatRadios[0].closest('div');
+  const babySeatContainer = document.getElementById('babySeatCountContainer');
+  const ceremonyGroup = document.getElementById('ceremony-group');
+
+  if (attendanceValue === "yes") {
+    guestCountGroup.style.display = "block";
+    vegetarianGroup.style.display = "block";
+    guestVGroup.style.display = vegetarian.value === "yes" ? "block" : "none";
+    babySeatRadioGroup.style.display = "block";
+    babySeatContainer.style.display = document.querySelector('input[name="needBabySeat"]:checked')?.value === "是" ? "block" : "none";
+    ceremonyGroup.style.display = "block";
+
+    document.getElementById('guest-count').setAttribute('required', 'required');
+    document.getElementById('vegetarian').setAttribute('required', 'required');
+    babySeatRadios.forEach(r => r.required = true);
+  } else {
+    guestCountGroup.style.display = "none";
+    vegetarianGroup.style.display = "none";
+    guestVGroup.style.display = "none";
+    babySeatRadioGroup.style.display = "none";
+    babySeatContainer.style.display = "none";
+    ceremonyGroup.style.display = "none";
+
+    document.getElementById('guest-count').value = "";
+    document.getElementById('vegetarian').value = "";
+    document.getElementById('guest-v').value = "";
+    document.getElementById('joinCeremony').value = "";
+    document.getElementById('babySeatCount').value = "";
+    babySeatRadios.forEach(r => {
+      r.checked = false;
+      r.required = false;
+    });
+  }
+}
+
+
+//戶外證婚
+function toggleCeremonyNoteByValue(value) {
+  const note = document.getElementById('ceremony-note');
+  note.style.display = value === 'yes' ? 'block' : 'none';
+}
+
+
+window.addEventListener('DOMContentLoaded', updateFormByAttendance);
+    attendance.addEventListener('change', updateFormByAttendance);
+
+    vegetarian.addEventListener('change', () => {
+      guestVGroup.style.display = vegetarian.value === "yes" && attendance.value === "yes" ? "block" : "none";
+    });
+
+    babySeatRadios.forEach(radio => {
+      radio.addEventListener('change', function () {
+        if (attendance.value === "yes") {
+          toggleBabySeatCount(this.value === "是");
+        }
+        if (this.value !== "是") {
+          document.getElementById('babySeatCount').value = "";
+        }
+      });
+    });
+
+    // 頁面載入時初始化
+   // updateFormByAttendance();
+
+
+
+
+    // 表單提交事件
+    document.getElementById('rsvp-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const relation = this.relation.value;
+      const attendance = this.attendance.value;
+	  const joinCeremony = document.getElementById('joinCeremony').value;
+      const guestCount = document.getElementById('guest-count').value || "0";
+      const vegetarian = this.vegetarian.value;
+      const guestV = document.getElementById('guest-v').value || "0";
+	  const form = this;
+      const submitBtn = form.querySelector('button[type="submit"]');
+      // 驗證素食人數不能超過總人數
+	  
+	  //const submitBtn = form.querySelector('button[type="submit"]');
+      if (attendance === "yes" && vegetarian === "yes") {
+        const guestVNum = parseInt(guestV, 10) || 0;
+        const guestCountNum = parseInt(guestCount, 10) || 0;
+        if (guestVNum > guestCountNum) {
+          alert("素食人數不能多於總出席人數，請重新確認");
+          submitBtn.disabled = false;
+          submitBtn.innerText = "送出回覆";
+          return;
+        }
+      }
+
+    //  const form = this;
+     // const submitBtn = form.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "已送出…";
+      if (attendance === "yes" && guestCount === "0") {
+        alert("請選擇出席人數");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "送出回覆";
+        return;
+      }
+	 
+      db.collection("rsvps").add({
+        name,
+        relation,
+        attendance,
+		joinCeremony,
+        guestCount,
+        vegetarian,
+        guestV,
+        needBabySeat: form.needBabySeat.value,
+        babySeatCount: form.babySeatCount.value || null,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        // 顯示感謝訊息，隱藏表單
+        document.getElementById('rsvp-form').style.display = 'none';
+        localStorage.setItem('rsvp_submitted', 'true');
+        document.getElementById('thankYouMessage').style.display = 'block';
+        // 若有 reset 需求可加上這行（目前無需再 reset 因為不會再顯示）
+        // form.reset();
+      })
+        .catch((error) => {
+          alert("發生錯誤，請稍後再試！");
+          console.error("Firestore 錯誤：", error);
+          submitBtn.disabled = false;
+          submitBtn.innerText = "送出回覆";
+        });
+      document.getElementById("babySeatCountContainer").style.display = 'none';
+    });
+	// 防止重複送出：若 localStorage 有送出記錄就直接顯示感謝訊息
+  if (localStorage.getItem("rsvp_submitted")) {
+    document.getElementById('rsvp-form').style.display = 'none';
+    localStorage.setItem('rsvp_submitted', 'true');
+       document.getElementById('thankYouMessage').style.display = 'block';
+		alert("您已經送出過回覆囉～若需更改請聯繫新人");
+ return;
+  }
+
+    // 信封動畫與音樂觸發
+    const envelope = document.getElementById('envelope');
+    const intro = document.getElementById('intro');
+    const main = document.getElementById('main');
+    
+    let opened = false;
+    envelope.addEventListener('click', () => {
+      if (opened) return;
+      opened = true;
+      envelope.classList.add('open');
+      setTimeout(() => {
+        intro.style.opacity = 0;
+        setTimeout(() => {
+          intro.style.display = 'none';
+          main.style.display = 'block';
+          main.style.animation = 'fadeIn 1.5s ease forwards';
+          { once: true };
+        }, 1500);
+      });
+    });
+  });
+
+
+  </script>
+
+</body>
+</html>

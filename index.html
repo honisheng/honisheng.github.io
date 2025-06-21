@@ -14,6 +14,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
   <link rel="manifest" href="images/site.webmanifest">
 
+
+
+
 </head>
 
 <!-- Firebase SDK -->
@@ -59,36 +62,83 @@
           <h2>📩 婚宴回函</h2>
 			<div id="rsvp-content" class="toggle-content" style="display:block;">			
 			<form id="rsvp-form" >
-              <label for="name">您的姓名：</label><input type="text" id="name" name="name" required />
+			<!-- 基本欄位（始終顯示） -->
+              <label for="name">您的姓名：</label>
+			  <input type="text" id="name" name="name" required />
+			  
               <label>您與新人的關係</label>
-              <select id="relation" name="relation"><option value="">請選擇</option><option value="A">男方親戚</option><option value="B">女方親戚</option><option value="C">男方朋友</option><option value="D">女方朋友</option><option value="E">男方同事</option><option value="F">女方同事</option></select>
+              <select id="relation" name="relation" required>
+			  <option value="">請選擇</option>
+			  <option value="A">男方親戚</option>
+			  <option value="B">女方親戚</option>
+			  <option value="C">男方朋友</option>
+			  <option value="D">女方朋友</option>
+			  <option value="E">男方同事</option>
+			  <option value="F">女方同事</option>
+			  </select>
+			  
               <label>您會來參與我們的婚宴嗎？</label>
-              <select name="attendance" id="attendance" required><option value="">請選擇</option><option value="yes">非常樂意</option><option value="no">無法參加</option></select>
+              <select name="attendance" id="attendance" required>
+			  <option value="">請選擇</option>
+			  <option value="yes">非常樂意</option>
+			  <option value="no">無法參加，紅包一定到</option>
+			  </select>
+			  
+			  <!-- 出席相關欄位（僅當選擇"非常樂意"時顯示） -->
               <div id="guest-count-group" style="display:none;">
                 <label for="guest-count">出席人數：</label>
-                <select id="guest-count" name="guest-count"><option value="">請選擇人數</option></select>
+                <select id="guest-count" name="guest-count">
+				  <option value="">請選擇人數</option>
+				</select>
               </div>
-              <label>需要為您準備素食嗎？</label>
-              <select name="vegetarian" id="vegetarian" required><option value="">請選擇</option><option value="yes">是的，我需要</option><option value="no">謝謝，不需要</option></select>
-              <div id="guest-v-group" style="display:none;">
-                <label for="guest-v">人數：</label>
-                <select id="guest-v" name="guest-v"></select>
-              </div>
-			  <!-- 是否需要嬰兒座椅 -->
-				<div>
+			  
+              <div id="vegetarian-group" style="display:none;">
+				<label>需要為您準備素食嗎？</label>
+				<select name="vegetarian" id="vegetarian">
+					<option value="">請選擇</option>
+					<option value="yes">是的，我需要</option>
+					<option value="no">謝謝，不需要</option>
+				</select>
+			  </div>
+  
+			  <div id="guest-v-group" style="display:none;">
+				<label for="guest-v">素食人數：</label>
+				<select id="guest-v" name="guest-v"></select>
+			  </div>
+			  
+			  <div id="ceremony-group" style="display:none;">
+				<label>您願意參加我們在16:30舉辦的戶外證婚儀式嗎？</label>
+				<select name="ceremony" id="ceremony">
+					<option value="">請選擇</option>
+					<option value="yes">願意參加證婚儀式</option>
+					<option value="no">沒關係，我會參加婚宴</option>
+				</select>
+			  </div>
+			  
+			  <div id="baby-seat-group" style="display:none;">
 				<label>是否需要嬰兒座椅？</label>
-				<label><input type="radio" name="needBabySeat" value="是" onclick="toggleBabySeatCount(true)" required /> 是</label>
+				<label><input type="radio" name="needBabySeat" value="是" onclick="toggleBabySeatCount(true)" /> 是</label>
 				<label><input type="radio" name="needBabySeat" value="否" onclick="toggleBabySeatCount(false)" /> 否</label>
-				</div>
-
-			  <!-- 需要幾張嬰兒座椅（預設隱藏） -->
+    
 				<div id="babySeatCountContainer" style="display: none;">
 				<label for="babySeatCount">需要幾張嬰兒座椅？</label>
 				<input type="number" id="babySeatCount" name="babySeatCount" min="1" max="10" />
 				</div>
+			  </div>
 
 				
               <button type="submit">送出回覆</button>
+			  <!-- 在表單按鈕旁添加 -->
+<div id="submit-loader" style="display:none; margin-top:10px; ">
+    <div id="submit-loaderA" style="border:3px solid #f3f3f3;
+	border-top:3px solid #d81b60; 
+	border-radius:50%;
+	width:20px; 
+	height:20px; 
+	animation:spin 1s linear infinite; 
+	margin:0 auto;"></div>
+  </div>
+			  
             </form>
           </div>
         </section>
@@ -96,7 +146,14 @@
 		<h1>💌 回函已收到，感謝您的祝福！</h1>
 		<p>我們已收到您的回覆，期待在婚禮現場與您相見！</p>
 	  </div>
-<div id="formError" style="display:none; color: #b91c1c; margin-top: 10px;"></div>
+<div id="formError" style="display:none; position: fixed; 
+     top: 20px; 
+     left: 50%; 
+     transform: translateX(-50%); 
+     z-index: 10000;
+     max-width: 90%;
+     width: 400px;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15);"></div>
         <!-- 地圖 -->
         <section>
           <h2>🗺️ 婚宴地圖</h2>

@@ -87,7 +87,8 @@
       <thead>
         <tr>
           <th>姓名</th><th>關係</th><th>是否出席</th><th>人數</th>
-          <th>是否素食</th><th>素食人數</th><th>嬰兒椅數量</th><th>時間</th><th>操作</th>
+          <th>是否素食</th><th>素食人數</th><th>嬰兒椅數量</th>
+          <th>參加證婚</th><th>時間</th><th>操作</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -153,7 +154,7 @@
       }
 
       db.collection("rsvps").orderBy("timestamp", "desc").get().then(snapshot => {
-        let total = 0, attending = 0, veg = 0;
+        let total = 0, attending = 0, veg = 0, ceremony = 0;
         tbody.innerHTML = "";
         csvData = [];
 
@@ -163,6 +164,8 @@
           const babySeatCount = parseInt(d.babySeatCount || 0);
           const guestCount = parseInt(d.guestCount || 0);
           const guestV = parseInt(d.guestV || 0);
+          const ceremonyStatus = d.attendance === 'yes' ? 
+            (d.ceremony === 'yes' ? '✅ 參加' : '❌ 不參加') : '未出席';
 
           row.innerHTML = `
             <td>${d.name || ""}</td>
@@ -172,6 +175,7 @@
             <td>${d.vegetarian === 'yes' ? '是' : '否'}</td>
             <td>${guestV}</td>
             <td>${babySeatCount}</td>
+            <td>${ceremonyStatus}</td>
             <td>${d.timestamp?.toDate().toLocaleString() || ""}</td>
             <td><button onclick="deleteEntry('${doc.id}')">🗑️ 刪除</button></td>
           `;
@@ -185,17 +189,19 @@
             是否素食: d.vegetarian === 'yes' ? '是' : '否',
             素食人數: guestV,
             嬰兒椅數量: babySeatCount,
+            參加證婚儀式: d.attendance === 'yes' ? (d.ceremony === 'yes' ? '參加' : '不參加') : '未出席',
             回覆時間: d.timestamp?.toDate().toLocaleString() || "",
           });
 
           if (d.attendance === 'yes') {
             attending += guestCount;
             if (d.vegetarian === 'yes') veg += guestV;
+            if (d.ceremony === 'yes') ceremony += guestCount;
           }
           total++;
         });
 
-        summary.innerText = `總回覆：${total} 筆｜出席總人數：${attending} 人｜素食：${veg} 人 `;
+        summary.innerText = `總回覆：${total} 筆｜出席總人數：${attending} 人｜素食：${veg} 人｜參加證婚：${ceremony} 人`;
       });
     }
 
@@ -208,9 +214,9 @@
     }
 
     function exportCSV() {
-      let csv = '姓名,關係,是否出席,人數,是否素食,素食人數,嬰兒椅數量,回覆時間\n';
+      let csv = '姓名,關係,是否出席,人數,是否素食,素食人數,嬰兒椅數量,參加證婚儀式,回覆時間\n';
       csvData.forEach(row => {
-        csv += `${row.姓名},${row.關係},${row.是否出席},${row.人數},${row.是否素食},${row.素食人數},${row.嬰兒椅數量},${row.回覆時間}\n`;
+        csv += `${row.姓名},${row.關係},${row.是否出席},${row.人數},${row.是否素食},${row.素食人數},${row.嬰兒椅數量},${row.參加證婚儀式},${row.回覆時間}\n`;
       });
 
       const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });

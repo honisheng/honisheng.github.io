@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>觸控版貪吃蛇</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    canvas {
+      background: #1e293b;
+      border: 3px solid #38bdf8;
+      border-radius: 8px;
+      touch-action: none;
+    }
+    h1 { margin: 10px; font-size: 20px; }
+    #score { margin: 6px; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <h1>🐍 觸控版貪吃蛇</h1>
+  <div id="score">得分：0</div>
+  <canvas id="gameCanvas" width="300" height="300"></canvas>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const box = 15;
+    let snake = [{ x: 7 * box, y: 7 * box }];
+    let direction = null;
+    let food = {
+      x: Math.floor(Math.random() * (canvas.width / box)) * box,
+      y: Math.floor(Math.random() * (canvas.height / box)) * box
+    };
+    let score = 0;
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 畫食物
+      ctx.fillStyle = '#f87171';
+      ctx.fillRect(food.x, food.y, box, box);
+
+      // 畫蛇
+      ctx.fillStyle = '#34d399';
+      snake.forEach((s, i) => {
+        ctx.fillRect(s.x, s.y, box, box);
+      });
+
+      // 蛇頭位置
+      let head = { x: snake[0].x, y: snake[0].y };
+      if (direction === 'LEFT') head.x -= box;
+      if (direction === 'UP') head.y -= box;
+      if (direction === 'RIGHT') head.x += box;
+      if (direction === 'DOWN') head.y += box;
+
+      // 撞牆
+      if (
+        head.x < 0 || head.y < 0 ||
+        head.x >= canvas.width || head.y >= canvas.height ||
+        snake.some((s) => s.x === head.x && s.y === head.y)
+      ) {
+        clearInterval(game);
+        alert('遊戲結束！得分：' + score);
+        document.location.reload();
+      }
+
+      // 吃到食物
+      if (head.x === food.x && head.y === food.y) {
+        score++;
+        document.getElementById('score').textContent = '得分：' + score;
+        food = {
+          x: Math.floor(Math.random() * (canvas.width / box)) * box,
+          y: Math.floor(Math.random() * (canvas.height / box)) * box
+        };
+      } else {
+        snake.pop();
+      }
+
+      snake.unshift(head);
+    }
+
+    let game = setInterval(draw, 150);
+
+    // 觸控操作
+    let startX, startY;
+    canvas.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      startX = touch.clientX;
+      startY = touch.clientY;
+    });
+
+    canvas.addEventListener('touchend', (e) => {
+      const touch = e.changedTouches[0];
+      let dx = touch.clientX - startX;
+      let dy = touch.clientY - startY;
+
+      if (Math.abs(dx) > Math.abs(dy)) {
+        if (dx > 0 && direction !== 'LEFT') direction = 'RIGHT';
+        else if (dx < 0 && direction !== 'RIGHT') direction = 'LEFT';
+      } else {
+        if (dy > 0 && direction !== 'UP') direction = 'DOWN';
+        else if (dy < 0 && direction !== 'DOWN') direction = 'UP';
+      }
+    });
+
+    // 鍵盤操作 (方便測試)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
+      if (e.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
+      if (e.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
+      if (e.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+    });
+  </script>
+</body>
+</html>

@@ -37,7 +37,8 @@
     const ctx = canvas.getContext('2d');
     const box = 15;
     let snake = [{ x: 7 * box, y: 7 * box }];
-    let direction = null;
+    let direction = null;   // 一開始沒有方向
+    let started = false;    // 遊戲是否開始移動
     let food = {
       x: Math.floor(Math.random() * (canvas.width / box)) * box,
       y: Math.floor(Math.random() * (canvas.height / box)) * box
@@ -53,18 +54,20 @@
 
       // 畫蛇
       ctx.fillStyle = '#34d399';
-      snake.forEach((s, i) => {
+      snake.forEach((s) => {
         ctx.fillRect(s.x, s.y, box, box);
       });
 
-      // 蛇頭位置
+      if (!started || !direction) return; // 尚未開始，蛇不動
+
+      // 計算新蛇頭位置
       let head = { x: snake[0].x, y: snake[0].y };
       if (direction === 'LEFT') head.x -= box;
       if (direction === 'UP') head.y -= box;
       if (direction === 'RIGHT') head.x += box;
       if (direction === 'DOWN') head.y += box;
 
-      // 撞牆
+      // 撞牆或撞自己
       if (
         head.x < 0 || head.y < 0 ||
         head.x >= canvas.width || head.y >= canvas.height ||
@@ -112,6 +115,7 @@
         if (dy > 0 && direction !== 'UP') direction = 'DOWN';
         else if (dy < 0 && direction !== 'DOWN') direction = 'UP';
       }
+      started = true; // 玩家滑動後遊戲才開始
     });
 
     // 鍵盤操作 (方便測試)
@@ -120,6 +124,7 @@
       if (e.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
       if (e.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
       if (e.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
+      started = true; // 按下方向鍵也可以開始
     });
   </script>
 </body>

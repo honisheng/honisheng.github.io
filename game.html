@@ -3,17 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>貪吃蛇</title>
+<title>手機全頁滑動貪吃蛇</title>
 <style>
-:root{--bg:#0f172a;--panel:#111827;--accent:#22d3ee;--text:#e5e7eb}
+:root{--bg:#0f172a;--accent:#22d3ee;--text:#e5e7eb}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial;
-  background:var(--bg);
-  color:var(--text);
-  text-align:center;
-  /*touch-action:none;*/}
+body{margin:0;font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text); text-align:center;}
 h2{margin:12px 0}
 #scoreBar{margin:6px 0 0 0; font-weight:600}
 canvas{
@@ -48,7 +42,7 @@ canvas{
 <body>
 
 <div id="startScreen">
-  <div id="title">🐍 貪吃蛇</div>
+  <div id="title">🐍 全頁滑動貪吃蛇</div>
   <button id="startBtn">開始遊戲</button>
   <div id="leaderboard">
     <h3>🏆 排行榜（前 10 名）</h3>
@@ -61,17 +55,18 @@ canvas{
 <div id="scoreBar">分數：<span id="score">0</span></div>
 <canvas id="game"></canvas>
 
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
 <script>
 const firebaseConfig = {
-  apiKey: "AIzaSyCRKeXJg7ZFyoy2N3RoVgMFnaaHQ1y5WWE",
-    authDomain: "wedding-3e426.firebaseapp.com",
-    projectId: "wedding-3e426",
-    storageBucket: "wedding-3e426.firebasestorage.app",
-    messagingSenderId: "531046039955",
-    appId: "1:531046039955:web:ac629474956529c160e866"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
@@ -148,7 +143,7 @@ function setDirection(nx,ny){
   if(!running){running=true; startLoop();}
 }
 
-// 鍵盤
+// 鍵盤控制
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowUp' && dir.y!==1) setDirection(0,-1);
   else if(e.key==='ArrowDown'&& dir.y!==-1) setDirection(0,1);
@@ -162,14 +157,12 @@ document.addEventListener('touchstart', e=>{
   const t = e.touches[0];
   sx = t.clientX; 
   sy = t.clientY;
-}, {passive:false});
-
+},{passive:false});
 document.addEventListener('touchend', e=>{
   const t = e.changedTouches[0];
   const dx = t.clientX - sx;
   const dy = t.clientY - sy;
-  
-  if(Math.abs(dx)>Math.abs(dy)){
+  if(Math.abs(dx) > Math.abs(dy)){
     if(dx>0 && dir.x!==-1) setDirection(1,0);
     else if(dx<0 && dir.x!==1) setDirection(-1,0);
   }else{

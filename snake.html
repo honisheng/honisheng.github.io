@@ -2,130 +2,219 @@
 <html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>觸控版貪吃蛇</title>
   <style>
     body {
-      margin: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 100vh;
-      background: #0f172a;
-      color: #f8fafc;
-      font-family: sans-serif;
-      overflow: hidden;
+      margin: 0;
+      background: #222;
+      color: #fff;
+      font-family: Arial, sans-serif;
     }
     canvas {
-      background: #1e293b;
-      border: 3px solid #38bdf8;
-      border-radius: 8px;
+      border: 2px solid #fff;
+      background: #000;
       touch-action: none;
     }
-    h1 { margin: 10px; font-size: 20px; }
-    #score { margin: 6px; font-size: 18px; }
+    #score {
+      font-size: 20px;
+      margin: 10px;
+    }
+    #leaderboard {
+      margin-top: 15px;
+      background: #333;
+      padding: 10px;
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 220px;
+    }
+    #leaderboard h3 {
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      text-align: center;
+    }
+    #leaderboard ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    #leaderboard li {
+      font-size: 16px;
+      padding: 3px 0;
+      border-bottom: 1px solid #444;
+    }
+    #playerForm {
+      margin: 10px;
+    }
+    #playerForm input {
+      padding: 5px;
+      border-radius: 5px;
+      border: none;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <h1>🐍 觸控版貪吃蛇</h1>
-  <div id="score">得分：0</div>
+  <div id="score">分數: 0</div>
+
+  <!-- 玩家名稱輸入 -->
+  <div id="playerForm">
+    <input type="text" id="playerName" placeholder="輸入玩家名稱" />
+  </div>
+
   <canvas id="gameCanvas" width="300" height="300"></canvas>
 
+  <div id="leaderboard">
+    <h3>排行榜</h3>
+    <ul id="leaderboardList"></ul>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
   <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-    const box = 15;
-    let snake = [{ x: 7 * box, y: 7 * box }];
-    let direction = null;   // 一開始沒有方向
-    let started = false;    // 遊戲是否開始移動
-    let food = {
-      x: Math.floor(Math.random() * (canvas.width / box)) * box,
-      y: Math.floor(Math.random() * (canvas.height / box)) * box
+    // 🔹 替換成你的 Firebase 設定
+    const firebaseConfig = {
+      apiKey: "AIzaSyCRKeXJg7ZFyoy2N3RoVgMFnaaHQ1y5WWE",
+	  authDomain: "wedding-3e426.firebaseapp.com",
+      projectId: "wedding-3e426",
+      storageBucket: "wedding-3e426.firebasestorage.app",
+      messagingSenderId: "531046039955",
+      appId: "1:531046039955:web:ac629474956529c160e866"
     };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // 上傳分數
+    function uploadScore(name, score) {
+      db.collection("scores").add({
+        name: name || "匿名玩家",
+        score: score,
+        time: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        console.log("✅ 分數已上傳:", name, score);
+        showScores();
+      }).catch(err => console.error("❌ 上傳失敗:", err));
+    }
+
+    // 顯示排行榜
+    function showScores() {
+      db.collection("scores")
+        .orderBy("score", "desc")
+        .limit(10)
+        .get()
+        .then(snapshot => {
+          let list = "";
+          snapshot.forEach(doc => {
+            let data = doc.data();
+            list += `<li>${data.name} - ${data.score} 分</li>`;
+          });
+          document.getElementById("leaderboardList").innerHTML = list;
+        });
+    }
+
+    // ======= 貪吃蛇遊戲 =======
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const box = 15;
+    let snake = [{x: 5*box, y: 5*box}];
+    let food = {x: Math.floor(Math.random()*20)*box, y: Math.floor(Math.random()*20)*box};
+    let dx = box, dy = 0;
     let score = 0;
+    let game;
+
+    document.addEventListener("keydown", changeDirection);
+    canvas.addEventListener("touchstart", handleTouchStart, false);
+    canvas.addEventListener("touchmove", handleTouchMove, false);
+
+    let xDown = null, yDown = null;
+
+    function handleTouchStart(evt) {
+      const firstTouch = evt.touches[0];
+      xDown = firstTouch.clientX;
+      yDown = firstTouch.clientY;
+    }
+
+    function handleTouchMove(evt) {
+      if (!xDown || !yDown) return;
+      let xUp = evt.touches[0].clientX;
+      let yUp = evt.touches[0].clientY;
+      let xDiff = xDown - xUp;
+      let yDiff = yDown - yUp;
+
+      if (Math.abs(xDiff) > Math.abs(yDiff)) {
+        if (xDiff > 0 && dx === 0) { dx = -box; dy = 0; } 
+        else if (xDiff < 0 && dx === 0) { dx = box; dy = 0; }
+      } else {
+        if (yDiff > 0 && dy === 0) { dx = 0; dy = -box; }
+        else if (yDiff < 0 && dy === 0) { dx = 0; dy = box; }
+      }
+      xDown = null; yDown = null;
+    }
+
+    function changeDirection(e) {
+      if (e.key === "ArrowLeft" && dx === 0) { dx = -box; dy = 0; }
+      else if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -box; }
+      else if (e.key === "ArrowRight" && dx === 0) { dx = box; dy = 0; }
+      else if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = box; }
+    }
 
     function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "black";
+      ctx.fillRect(0,0,canvas.width,canvas.height);
 
-      // 畫食物
-      ctx.fillStyle = '#f87171';
-      ctx.fillRect(food.x, food.y, box, box);
-
-      // 畫蛇
-      ctx.fillStyle = '#34d399';
-      snake.forEach((s) => {
-        ctx.fillRect(s.x, s.y, box, box);
-      });
-
-      if (!started || !direction) return; // 尚未開始，蛇不動
-
-      // 計算新蛇頭位置
-      let head = { x: snake[0].x, y: snake[0].y };
-      if (direction === 'LEFT') head.x -= box;
-      if (direction === 'UP') head.y -= box;
-      if (direction === 'RIGHT') head.x += box;
-      if (direction === 'DOWN') head.y += box;
-
-      // 撞牆或撞自己
-      if (
-        head.x < 0 || head.y < 0 ||
-        head.x >= canvas.width || head.y >= canvas.height ||
-        snake.some((s) => s.x === head.x && s.y === head.y)
-      ) {
-        clearInterval(game);
-        alert('遊戲結束！得分：' + score);
-        document.location.reload();
+      for (let i=0;i<snake.length;i++) {
+        ctx.fillStyle = i===0 ? "lime" : "green";
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
       }
 
-      // 吃到食物
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, box, box);
+
+      let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+
       if (head.x === food.x && head.y === food.y) {
         score++;
-        document.getElementById('score').textContent = '得分：' + score;
-        food = {
-          x: Math.floor(Math.random() * (canvas.width / box)) * box,
-          y: Math.floor(Math.random() * (canvas.height / box)) * box
-        };
+        document.getElementById("score").innerText = "分數: " + score;
+        food = {x: Math.floor(Math.random()*20)*box, y: Math.floor(Math.random()*20)*box};
       } else {
         snake.pop();
+      }
+
+      // 撞牆或撞到自己
+      if (head.x < 0 || head.y < 0 || head.x >= canvas.width || head.y >= canvas.height || snake.some(s => s.x===head.x && s.y===head.y)) {
+        clearInterval(game);
+        ctx.fillStyle = "white";
+        ctx.font = "20px Arial";
+        ctx.fillText("遊戲結束", canvas.width/2-50, canvas.height/2);
+
+        // 取得玩家名稱並上傳
+        let name = document.getElementById("playerName").value.trim();
+        uploadScore(name, score);
+        return;
       }
 
       snake.unshift(head);
     }
 
-    let game = setInterval(draw, 150);
+    function startGame() {
+      score = 0;
+      snake = [{x: 5*box, y: 5*box}];
+      dx = box; dy = 0;
+      document.getElementById("score").innerText = "分數: " + score;
+      if (game) clearInterval(game);
+      game = setInterval(draw, 150);
+    }
 
-    // 觸控操作
-    let startX, startY;
-    canvas.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      startX = touch.clientX;
-      startY = touch.clientY;
-    });
-
-    canvas.addEventListener('touchend', (e) => {
-      const touch = e.changedTouches[0];
-      let dx = touch.clientX - startX;
-      let dy = touch.clientY - startY;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (dx > 0 && direction !== 'LEFT') direction = 'RIGHT';
-        else if (dx < 0 && direction !== 'RIGHT') direction = 'LEFT';
-      } else {
-        if (dy > 0 && direction !== 'UP') direction = 'DOWN';
-        else if (dy < 0 && direction !== 'DOWN') direction = 'UP';
-      }
-      started = true; // 玩家滑動後遊戲才開始
-    });
-
-    // 鍵盤操作 (方便測試)
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft' && direction !== 'RIGHT') direction = 'LEFT';
-      if (e.key === 'ArrowUp' && direction !== 'DOWN') direction = 'UP';
-      if (e.key === 'ArrowRight' && direction !== 'LEFT') direction = 'RIGHT';
-      if (e.key === 'ArrowDown' && direction !== 'UP') direction = 'DOWN';
-      started = true; // 按下方向鍵也可以開始
-    });
+    startGame();
+    showScores();
   </script>
 </body>
 </html>

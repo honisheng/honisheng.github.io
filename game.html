@@ -7,7 +7,13 @@
 <style>
 :root{--bg:#0f172a;--panel:#111827;--accent:#22d3ee;--text:#e5e7eb}
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial; background:var(--bg); color:var(--text); text-align:center; touch-action:none;}
+body{
+  margin:0;
+  font-family:system-ui, -apple-system, Segoe UI, Roboto, Noto Sans, Arial;
+  background:var(--bg);
+  color:var(--text);
+  text-align:center;
+  /*touch-action:none;*/}
 h2{margin:12px 0}
 #scoreBar{margin:6px 0 0 0; font-weight:600}
 canvas{
@@ -153,13 +159,16 @@ document.addEventListener('keydown',e=>{
 // 全頁觸控滑動控制
 let sx=0, sy=0;
 document.addEventListener('touchstart', e=>{
-  e.preventDefault();
-  sx=e.touches[0].clientX; sy=e.touches[0].clientY;
-},{passive:false});
+  const t = e.touches[0];
+  sx = t.clientX; 
+  sy = t.clientY;
+}, {passive:false});
+
 document.addEventListener('touchend', e=>{
-  e.preventDefault();
-  const dx=e.changedTouches[0].clientX-sx;
-  const dy=e.changedTouches[0].clientY-sy;
+  const t = e.changedTouches[0];
+  const dx = t.clientX - sx;
+  const dy = t.clientY - sy;
+  
   if(Math.abs(dx)>Math.abs(dy)){
     if(dx>0 && dir.x!==-1) setDirection(1,0);
     else if(dx<0 && dir.x!==1) setDirection(-1,0);

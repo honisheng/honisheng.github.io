@@ -2,12 +2,33 @@
 import { db } from "./Firebase Config.js";
 import { collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
-const gallery = document.getElementById("gallery");
+//------------
+  const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// --- DOM 元素 ---
+const loginSection = document.getElementById("loginSection");
+const adminSection = document.getElementById("adminSection");
+const loginBtn = document.getElementById("loginBtn");
+const logoutBtn = document.getElementById("logoutBtn");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const loginError = document.getElementById("loginError");
+
 const groupSelect = document.getElementById("groupSelect");
-const loadBtn = document.getElementById("loadBtn");
-const prevPageBtn = document.getElementById("prevPage");
-const nextPageBtn = document.getElementById("nextPage");
+const photosDiv = document.getElementById("photos");
+const prevPageBtn = document.getElementById("prevPageBtn");
+const nextPageBtn = document.getElementById("nextPageBtn");
 const pageInfo = document.getElementById("pageInfo");
+//---
+
+const gallery = document.getElementById("gallery");
+//const groupSelect = document.getElementById("groupSelect");
+//const loadBtn = document.getElementById("loadBtn");
+//const prevPageBtn = document.getElementById("prevPage");
+//const nextPageBtn = document.getElementById("nextPage");
+//const pageInfo = document.getElementById("pageInfo");
 
 // --- 登入功能 ---
 loginBtn.addEventListener("click", async () => {
@@ -133,4 +154,5 @@ loadBtn.addEventListener("click", () => {
   const groupId = groupSelect.value;
   loadPhotos(groupId);
 });
+
 

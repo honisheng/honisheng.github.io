@@ -9,6 +9,33 @@ const prevPageBtn = document.getElementById("prevPage");
 const nextPageBtn = document.getElementById("nextPage");
 const pageInfo = document.getElementById("pageInfo");
 
+// --- 登入功能 ---
+loginBtn.addEventListener("click", async () => {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    loginError.textContent = "";
+  } catch (err) {
+    loginError.textContent = "登入失敗：" + err.message;
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+  await signOut(auth);
+});
+
+// --- 監聽登入狀態 ---
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    loginSection.style.display = "none";
+    adminSection.style.display = "block";
+  } else {
+    loginSection.style.display = "block";
+    adminSection.style.display = "none";
+  }
+});
+
 const PAGE_SIZE = 6; // 每頁顯示幾張照片
 let photos = [];
 let currentPage = 1;
@@ -106,3 +133,4 @@ loadBtn.addEventListener("click", () => {
   const groupId = groupSelect.value;
   loadPhotos(groupId);
 });
+

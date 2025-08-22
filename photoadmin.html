@@ -8,6 +8,16 @@
 <body>
   <h2>管理者後台</h2>
 
+<!-- 登入區塊 -->
+  <div id="loginSection">
+    <h2>請登入</h2>
+    <input type="email" id="email" placeholder="Email"><br><br>
+    <input type="password" id="password" placeholder="Password"><br><br>
+    <button id="loginBtn">登入</button>
+    <p id="loginError" style="color:red;"></p>
+  </div>
+  
+  <!-- 管理區塊 -->
   <label for="groupSelect">選擇群組：</label>
   <select id="groupSelect">
     <option value="">全部群組</option>
@@ -26,5 +36,6 @@
   <script type="module" src="uploadphotojs/photoadmin.js"></script>
 </body>
 </html>
+
 
 

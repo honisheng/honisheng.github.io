@@ -3,17 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>管理者後台 - 照片總覽</title>
-  <link rel="stylesheet" href="\uploadphotocss\style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <h2>管理者後台</h2>
 
-  <label for="filter">選擇群組：</label>
-  <input type="text" id="filter" placeholder="輸入群組 ID 或留空顯示全部">
-  <button id="filterBtn">篩選</button>
+  <label for="groupSelect">選擇群組：</label>
+  <select id="groupSelect">
+    <option value="">全部群組</option>
+    <!-- 會由 JS 動態載入群組選項 -->
+  </select>
+  <button id="loadBtn">載入</button>
 
   <div id="gallery"></div>
 
-  <script type="module" src="\uploadphotojs\photoadmin.js"></script>
+  <div id="pagination" style="margin-top:20px;">
+    <button id="prevPage">上一頁</button>
+    <span id="pageInfo"></span>
+    <button id="nextPage">下一頁</button>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
 </body>
 </html>

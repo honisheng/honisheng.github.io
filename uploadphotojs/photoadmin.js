@@ -4,7 +4,7 @@ import { collection, query, where, orderBy, getDocs } from "https://www.gstatic.
 
 //------------
   //const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+//const auth = getAuth(app);
 //const db = getFirestore(app);
 
 // --- DOM 元素 ---
@@ -154,6 +154,7 @@ loadBtn.addEventListener("click", () => {
   const groupId = groupSelect.value;
   loadPhotos(groupId);
 });
+
 
 
 

@@ -1,5 +1,5 @@
 // js/upload.js
-import { db, storage } from "./uploadphotojs\Firebase Config.js";
+import { db, storage } from "./Firebase Config.js";
 import { collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
@@ -52,3 +52,4 @@ async function loadPhotos() {
 }
 
 loadPhotos();
+

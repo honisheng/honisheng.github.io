@@ -3,7 +3,7 @@ import { db } from "./Firebase Config.js";
 import { collection, query, where, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 //------------
-  const app = initializeApp(firebaseConfig);
+  //const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 //const db = getFirestore(app);
 
@@ -154,6 +154,7 @@ loadBtn.addEventListener("click", () => {
   const groupId = groupSelect.value;
   loadPhotos(groupId);
 });
+
 
 
 

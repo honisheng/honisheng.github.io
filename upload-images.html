@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>進入群組</title>
+  <link rel="stylesheet" href="\uploadphotocss\style.css">
+</head>
+<body>
+  <h2>請輸入群組代碼</h2>
+  <form id="groupForm">
+    <input type="text" id="groupId" placeholder="輸入群組 ID" required>
+    <button type="submit">進入</button>
+  </form>
+
+  <script>
+    const form = document.getElementById('groupForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const groupId = document.getElementById('groupId').value.trim();
+      if(groupId) {
+        window.location.href = `upload-group.html?group=${groupId}`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>群組照片上傳</title>
+  <link rel="stylesheet" href="\uploadphotocss\style.css">
+</head>
+<body>
+  <h2>上傳照片與留言</h2>
+  <form id="uploadForm">
+    <input type="file" id="photo" accept="image/*" required><br><br>
+    <textarea id="comment" placeholder="留言..." rows="3"></textarea><br><br>
+    <button type="submit">上傳</button>
+  </form>
+
+  <div id="gallery"></div>
+
+  <script type="module" src="\uploadphotojs\upload.js"></script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 // js/admin.js
-import { db } from "./uploadphotojs\Firebase Config.js";
+import { db } from "./Firebase Config.js";
 import { collection, query, where, getDocs, orderBy } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 const gallery = document.getElementById("gallery");
@@ -42,3 +42,4 @@ filterBtn.addEventListener("click", () => {
   const groupId = document.getElementById("filter").value.trim();
   loadPhotos(groupId);
 });
+

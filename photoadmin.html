@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>管理者後台 - 照片總覽</title>
-  <link rel="stylesheet" href="uploadphotocss\photoadmin.css">
+  <link rel="stylesheet" href="uploadphotocss/photoadmin.css">
 </head>
 <body>
+
   <h2>管理者後台</h2>
 
-<!-- 登入區塊 -->
+  <!-- 登入區塊 -->
   <div id="loginSection">
     <h2>請登入</h2>
     <input type="email" id="email" placeholder="Email"><br><br>
@@ -18,25 +19,24 @@
   </div>
   
   <!-- 管理區塊 -->
-  <label for="groupSelect">選擇群組：</label>
-  <select id="groupSelect">
-    <option value="">全部群組</option>
-    <!-- 會由 JS 動態載入群組選項 -->
-  </select>
-  <button id="loadBtn">載入</button>
+  <div id="adminSection">
+    <button id="logoutBtn">登出</button>
+    <br><br>
 
-  <div id="gallery"></div>
+    <label for="groupSelect">選擇群組：</label>
+    <select id="groupSelect">
+      <option value="">全部群組</option>
+    </select>
+    <button id="loadBtn">載入</button>
 
-  <div id="pagination" style="margin-top:20px;">
-    <button id="prevPage">上一頁</button>
-    <span id="pageInfo"></span>
-    <button id="nextPage">下一頁</button>
+    <div id="gallery"></div>
+
+    <div id="pagination" style="margin-top:20px;">
+      <button id="prevPage">上一頁</button>
+      <span id="pageInfo"></span>
+      <button id="nextPage">下一頁</button>
+    </div>
   </div>
-
-  <script type="module" src="uploadphotojs/photoadmin.js"></script>
+  
 </body>
 </html>
-
-
-
-

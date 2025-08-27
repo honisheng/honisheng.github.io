@@ -1,13 +1,38 @@
+// 主題清單，只需要定義資料夾，不用數照片
+const themes = [
+  { title: "風格1", folder: "/weddingphoto/images/StyleA" },
+  { title: "風格2", folder: "/weddingphoto/images/StyleB" },
+  { title: "風格3", folder: "/weddingphoto/images/StyleC" },
+  { title: "風格4", folder: "/weddingphoto/images/StyleD" },
+  { title: "風格5", folder: "/weddingphoto/images/StyleE" }
+];
 
-let themes = [];
+// 支援的副檔名
+const extensions = ["jpg", "jpeg", "png", "gif"];
+const maxPhotos = 50; // 每個主題最多檢查 50 張
 
-// 從 themes.json 載入資料
-fetch("themes.json")
-  .then(res => res.json())
-  .then(data => {
-    themes = data;
-    renderThemes();
-  });
+themes.forEach(t => {
+  t.images = [];
+  let foundFirst = false;
+
+  // 嘗試不同編號 + 副檔名
+  for (let i = 1; i <= maxPhotos; i++) {
+    extensions.forEach(ext => {
+      const url = `${t.folder}/${i}.${ext}`;
+      const img = new Image();
+      img.src = url;
+
+      img.onload = () => {
+        t.images.push(url);
+        if (!foundFirst) {
+          t.cover = url; // 第一張成功載入的圖片當封面
+          foundFirst = true;
+          renderThemes(); // 更新主題卡片
+        }
+      };
+    });
+  }
+});
 
 const themeList=document.getElementById("themeList");
 const themeGallery=document.getElementById("themeGallery");
@@ -21,6 +46,7 @@ let currentIndex=0;
 function renderThemes(){
   themeList.innerHTML="";
   themes.forEach((t,i)=>{
+    if (!t.cover) return; // 沒有圖片就跳過
     const card=document.createElement("div");
     card.className="theme-card";
     card.innerHTML=`<img src="${t.cover}" alt=""><h3>${t.title}</h3>`;

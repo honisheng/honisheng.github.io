@@ -1,0 +1,37 @@
+body { margin:0; font-family:sans-serif; background:#f8f8f8; }
+    .container { max-width:1200px; margin:auto; padding:20px; }
+
+    /* 主題清單 */
+    .themes { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:20px; }
+    .theme-card {
+      background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.1);
+      cursor:pointer; transition:transform 0.2s;
+    }
+    .theme-card:hover { transform:scale(1.03); }
+    .theme-card img { width:100%; height:150px; object-fit:cover; }
+    .theme-card h3 { margin:0; padding:10px; text-align:center; }
+
+    /* 相簿 */
+    .back-btn { margin-bottom:15px; cursor:pointer; color:#007bff; text-decoration:underline; display:inline-block; }
+    .gallery { column-count:2; column-gap:15px; }
+    @media(min-width:768px){ .gallery{ column-count:3; } }
+    @media(min-width:1024px){ .gallery{ column-count:4; } }
+    .gallery img {
+      width:100%; margin-bottom:15px; border-radius:8px; cursor:pointer;
+      transition:transform 0.2s;
+    }
+    .gallery img:hover { transform:scale(1.02); }
+
+    /* 燈箱 */
+    .lightbox {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.9);
+      justify-content:center; align-items:center; z-index:999;
+    }
+    .lightbox img { max-width:90%; max-height:80vh; border-radius:8px; }
+    .lightbox button {
+      position:absolute; top:50%; transform:translateY(-50%);
+      background:none; border:none; color:white; font-size:2rem; cursor:pointer;
+    }
+    .close-btn { top:20px; right:20px; transform:none; font-size:2rem; }
+    .prev { left:20px; }
+    .next { right:20px; }

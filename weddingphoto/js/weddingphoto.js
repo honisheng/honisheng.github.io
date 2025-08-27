@@ -1,4 +1,4 @@
-<script>
+
 let themes = [];
 
 // 從 themes.json 載入資料
@@ -67,4 +67,3 @@ function nextImage(){
   currentIndex=(currentIndex+1)%currentImages.length;
   lightboxImg.src=currentImages[currentIndex];
 }
-</script>

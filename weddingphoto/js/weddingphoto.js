@@ -11,8 +11,14 @@ const themes = [
 const extensions = ["jpg", "jpeg", "png", "gif"];
 
 themes.forEach(t => {
-  t.cover = `${t.folder}/001.jpg`; 
-  t.images = Array.from({length: t.count}, (_, i) => `${t.folder}/${i+1}.jpg`);
+  // 001 當封面
+  t.cover = `${t.folder}/001.${extensions[0]}`;
+  
+  // 生成 001.jpg ~ NNN.jpg
+  t.images = Array.from({length: t.count}, (_, i) => {
+    const num = String(i+1).padStart(3, "0"); // 補零到三位數
+    return `${t.folder}/${num}.${extensions[0]}`;
+  });
 });
 
 const themeList=document.getElementById("themeList");

@@ -1,31 +1,13 @@
-const themes = [
-      {
-        title:"主題 A - 海邊夕陽",
-        cover:"https://placekitten.com/400/300",
-        images:[
-          "https://placekitten.com/800/600",
-          "https://placekitten.com/801/600",
-          "https://placekitten.com/802/600"
-        ]
-      },
-      {
-        title:"主題 B - 森林小徑",
-        cover:"https://placekitten.com/401/300",
-        images:[
-          "https://placekitten.com/803/600",
-          "https://placekitten.com/804/600",
-          "https://placekitten.com/805/600"
-        ]
-      },
-      {
-        title:"主題 C - 棚拍浪漫",
-        cover:"https://placekitten.com/402/300",
-        images:[
-          "https://placekitten.com/806/600",
-          "https://placekitten.com/807/600"
-        ]
-      }
-    ];
+let themes = [];
+
+// 從 themes.json 載入資料
+fetch("themes.json")
+  .then(res => res.json())
+  .then(data => {
+    themes = data;
+    renderThemes();
+  });
+
 
     const themeList=document.getElementById("themeList");
     const themeGallery=document.getElementById("themeGallery");

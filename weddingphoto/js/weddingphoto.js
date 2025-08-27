@@ -1,10 +1,10 @@
 // 主題清單，只需要定義資料夾，不用數照片
 const themes = [
-  { title: "風格1", folder: "/weddingphoto/images/StyleA", count: 44 },
-  { title: "風格2", folder: "/weddingphoto/images/StyleB", count: 37 },
-  { title: "風格3", folder: "/weddingphoto/images/StyleC", count: 78 },
-  { title: "風格4", folder: "/weddingphoto/images/StyleD", count: 24 },
-  { title: "風格5", folder: "/weddingphoto/images/StyleE", count: 30 }
+  { title: "風格1", folder: "weddingphoto/images/StyleA", count: 44 },
+  { title: "風格2", folder: "weddingphoto/images/StyleB", count: 37 },
+  { title: "風格3", folder: "weddingphoto/images/StyleC", count: 78 },
+  { title: "風格4", folder: "weddingphoto/images/StyleD", count: 24 },
+  { title: "風格5", folder: "weddingphoto/images/StyleE", count: 30 }
 ];
 
 // 支援的副檔名

@@ -11,8 +11,6 @@ const themes = [
 const extensions = ["jpg", "jpeg", "png", "gif"];
 
 themes.forEach(t => {
-  // 001 當封面
-  t.cover = t.thumbs[0];
   
   // 原始大圖 生成 001.jpg ~ NNN.jpg
   t.images = Array.from({length: t.count}, (_, i) => {
@@ -25,6 +23,10 @@ themes.forEach(t => {
       const num = String(i+1).padStart(3, "0");
       return t.folder.replace("/weddingphoto/images/", "/weddingphoto/thumbs/") + `/${num}.${ext}`;
     });
+	
+  // 封面用第一張縮圖
+  t.cover = t.thumbs[0];
+  
   
 });
 

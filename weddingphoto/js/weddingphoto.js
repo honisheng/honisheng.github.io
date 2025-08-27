@@ -49,6 +49,7 @@ function openTheme(index){
   theme.images.forEach((url,i)=>{
     const img=document.createElement("img");
     img.src=url;
+	img.loading="lazy";
     img.onclick=()=>openLightbox(i);
     gallery.appendChild(img);
   });
@@ -79,6 +80,19 @@ function nextImage(){
   currentIndex=(currentIndex+1)%currentImages.length;
   lightboxImg.src=currentImages[currentIndex];
 }
+// 背景點擊關閉燈箱
+  lightbox.addEventListener("click", e => {
+    if (e.target === lightbox) closeLightbox();
+  });
 
+  // 鍵盤操作
+  document.addEventListener("keydown", e => {
+    if (lightbox.style.display==="flex") {
+      if (e.key==="ArrowLeft") prevImage();
+      if (e.key==="ArrowRight") nextImage();
+      if (e.key==="Escape") closeLightbox();
+    }
+  });
+  
 // 初始化
 renderThemes();

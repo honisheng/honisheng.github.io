@@ -12,13 +12,20 @@ const extensions = ["jpg", "jpeg", "png", "gif"];
 
 themes.forEach(t => {
   // 001 當封面
-  t.cover = `${t.folder}/001.${extensions[0]}`;
+  t.cover = t.thumbs[0];
   
-  // 生成 001.jpg ~ NNN.jpg
+  // 原始大圖 生成 001.jpg ~ NNN.jpg
   t.images = Array.from({length: t.count}, (_, i) => {
     const num = String(i+1).padStart(3, "0"); // 補零到三位數
     return `${t.folder}/${num}.${extensions[0]}`;
   });
+  
+  // 縮圖 (thumbs 資料夾)
+    t.thumbs = Array.from({length: t.count}, (_, i) => {
+      const num = String(i+1).padStart(3, "0");
+      return t.folder.replace("/images/", "/thumbs/") + `/${num}.${ext}`;
+    });
+  
 });
 
 const themeList=document.getElementById("themeList");
@@ -43,14 +50,14 @@ function renderThemes(){
 
 function openTheme(index){
   const theme=themes[index];
-  currentImages=theme.images;
+  currentImages=theme.images; // 大圖
   themeTitle.textContent=theme.title;
   gallery.innerHTML="";
-  theme.images.forEach((url,i)=>{
+  theme.thumbs.forEach((thumb,i)=>{
     const img=document.createElement("img");
-    img.src=url;
+    img.src=thumb; // 顯示縮圖
 	img.loading="lazy";
-    img.onclick=()=>openLightbox(i);
+    img.onclick=()=>openLightbox(i); // 點縮圖 → 開大圖
     gallery.appendChild(img);
   });
   themeList.style.display="none";
@@ -68,7 +75,7 @@ const lightboxImg=document.getElementById("lightboxImg");
 
 function openLightbox(i){
   currentIndex=i;
-  lightboxImg.src=currentImages[i];
+  lightboxImg.src=currentImages[i]; // 大圖
   lightbox.style.display="flex";
 }
 function closeLightbox(){ lightbox.style.display="none"; }

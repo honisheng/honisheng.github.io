@@ -1,0 +1,20 @@
+[
+  {
+    "title": "海邊夕陽",
+    "cover": "/weddingphoto/images/A/0001.jpg",
+    "images": [
+      "/weddingphoto/images/A/0001.jpg",
+      "/weddingphoto/images/A/0005.jpg",
+      "/weddingphoto/images/A/0007.jpg"
+    ]
+  },
+  {
+    "title": "森林小徑",
+    "cover": "/weddingphoto/images/B/0098.jpg",
+    "images": [
+      "/weddingphoto/images/B/0099.jpg",
+      "/weddingphoto/images/B/0100.jpg",
+      "/weddingphoto/images/B/0101.jpg"
+    ]
+  }
+]

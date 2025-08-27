@@ -23,7 +23,7 @@ themes.forEach(t => {
   // 縮圖 (thumbs 資料夾)
     t.thumbs = Array.from({length: t.count}, (_, i) => {
       const num = String(i+1).padStart(3, "0");
-      return t.folder.replace("/images/", "/thumbs/") + `/${num}.${ext}`;
+      return t.folder.replace("/weddingphoto/images/", "/weddingphoto/thumbs/") + `/${num}.${ext}`;
     });
   
 });

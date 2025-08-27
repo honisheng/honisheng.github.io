@@ -21,11 +21,11 @@
 
   <!-- 燈箱 -->
   <div class="lightbox" id="lightbox">
-    <button class="close-btn" onclick="closeLightbox()">✕</button>
-    <button class="prev" onclick="prevImage()">❮</button>
-    <img id="lightboxImg" src="" alt="">
-    <button class="next" onclick="nextImage()">❯</button>
-  </div>
+    <button id="lightboxClose" class="lightbox-btn" onclick="closeLightbox()">✕</button>
+  <button id="lightboxPrev" class="lightbox-btn" onclick="prevImage()">⟨</button>
+  <img id="lightboxImg" src="">
+  <button id="lightboxNext" class="lightbox-btn" onclick="nextImage()">⟩</button>
+</div>
 
   <script src="js/weddingphoto.js"></script>
 </body>

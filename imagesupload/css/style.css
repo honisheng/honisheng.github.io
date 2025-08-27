@@ -1,0 +1,18 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  text-align: center;
+}
+form {
+  margin-bottom: 20px;
+}
+#gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+#gallery div {
+  border: 1px solid #ccc;
+  padding: 5px;
+}

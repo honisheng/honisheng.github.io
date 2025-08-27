@@ -1,17 +1,19 @@
 
-    //firebaseConfig
-  const firebaseConfig = {
-    apiKey: "AIzaSyCRKeXJg7ZFyoy2N3RoVgMFnaaHQ1y5WWE",
-    authDomain: "wedding-3e426.firebaseapp.com",
-    projectId: "wedding-3e426",
-    storageBucket: "wedding-3e426.firebasestorage.app",
-    messagingSenderId: "531046039955",
-    appId: "1:531046039955:web:ac629474956529c160e866"
-  };
+//firebaseConfig
+import { db } from "./FirebaseConfig/FirebaseConfig.js";
+    
+  //const firebaseConfig = {
+   // apiKey: "AIzaSyCRKeXJg7ZFyoy2N3RoVgMFnaaHQ1y5WWE",
+  //  authDomain: "wedding-3e426.firebaseapp.com",
+   // projectId: "wedding-3e426",
+   // storageBucket: "wedding-3e426.firebasestorage.app",
+   // messagingSenderId: "531046039955",
+   // appId: "1:531046039955:web:ac629474956529c160e866"
+ // };
 
   // 初始化 Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
+ // firebase.initializeApp(firebaseConfig);
+ // const db = firebase.firestore();
 
   function populateOptions(id) {
     const select = document.getElementById(id);

@@ -16,7 +16,7 @@ themes.forEach(t => {
   let foundFirst = false;
 
   // 嘗試不同編號 + 副檔名
-  for (let i = 1; i <= maxPhotos; i++) {
+  for (let i = 0001; i <= maxPhotos; i++) {
     extensions.forEach(ext => {
       const url = `${t.folder}/${i}.${ext}`;
       const img = new Image();

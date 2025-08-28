@@ -21,7 +21,7 @@ themes.forEach(t => {
   });
 
   // 封面用第一張縮圖
-  t.cover = t.thumbs[0];
+  t.cover = t.images[0];
 });
 
 const themeList=document.getElementById("themeList");

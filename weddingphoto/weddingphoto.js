@@ -1,10 +1,7 @@
 // 主題清單，只需要定義資料夾，不用數照片
 const themes = [
-  { title: "風格1", folder: "images/StyleA", count: 44 },
-  { title: "風格2", folder: "images/StyleB", count: 37 },
-  { title: "風格3", folder: "images/StyleC", count: 78 },
-  { title: "風格4", folder: "images/StyleD", count: 24 },
-  { title: "風格5", folder: "images/StyleE", count: 30 }
+  { title: "相本A", folder: "images/photoalbumA", count: 52 },
+  { title: "相本B", folder: "images/photoalbumB", count: 43 },
 ];
 
 // 支援的副檔名

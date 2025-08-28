@@ -1,5 +1,0 @@
-body { font-family: sans-serif; padding: 20px; }
-    #loginSection, #adminSection { display: none; }
-    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, 200px); gap: 10px; }
-    .photo-grid img { width: 200px; border-radius: 8px; }
-    .hidden { display: none; }

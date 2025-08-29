@@ -1,5 +1,5 @@
 // js/upload.js
-import { db, storage } from "./Firebase Config.js";
+import { db, storage } from "./FirebaseConfig/FirebaseConfig.js";
 import { collection, addDoc, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
@@ -38,7 +38,7 @@ form.addEventListener("submit", async (e) => {
 // 載入群組照片
 async function loadPhotos() {
   gallery.innerHTML = "";
-  const q = query(collection(db, "uploads"), where("group_id", "==", groupId));
+  const q = query(collection(db, "uploads"), where("group_id", "==", groupId),orderBy("created_at", "desc"));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     const data = doc.data();

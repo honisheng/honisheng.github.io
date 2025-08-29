@@ -16,3 +16,8 @@ form {
   border: 1px solid #ccc;
   padding: 5px;
 }
+#gallery img {
+  max-width: 200px;
+  height: auto;
+  border-radius: 8px;
+}
